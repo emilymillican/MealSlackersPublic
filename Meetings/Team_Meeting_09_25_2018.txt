@@ -1,0 +1,15 @@
+Team meeting 09/25/2018
+
+All group members were in attendance
+
+-thinking about doing the crowd sourced website where students can add events that are going on around campus. 
+
+- people could add event and make them public. 
+
+- we could setup email notification for people to know where there is free food!
+
+-setup git accounts
+
+-setting up private repository and shared with all team members
+
+-get plug ins for visual studio code
