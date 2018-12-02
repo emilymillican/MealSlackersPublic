@@ -4,7 +4,7 @@ var passport = require('passport');
 
 app.get('/', function (request, response) {
    // render the views/index.ejs template file
-   response.render('index', {title: 'Boulder Meal Slackerz'})
+   response.render('loginPage', {title: 'Boulder Meal Slackerz'})
 });
 
 app.post('/login', 
