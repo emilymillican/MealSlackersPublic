@@ -20,6 +20,12 @@ app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     })
 });
 
+app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
+    // render home/setting.ejs
+    response.render('home/setting', {
+        title: 'Profile Settings'
+    })
+});
 // Route to insert values. Notice that request method is POST here
 app.post('/add', cel.ensureLoggedIn('/'), function (request, response) {
     // Validate user input - ensure non emptiness
