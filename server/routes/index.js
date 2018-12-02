@@ -17,4 +17,10 @@ app.get('/registration', function (request, response) {
    // render the views/registration.ejs template
    response.render('registration', {title: 'Register'})
 });
+
+app.get('/recover', function (request, response) {
+   // render the views/registration.ejs template
+   response.render('recover', {title: 'Recover Login'})
+});
+
 module.exports = app;

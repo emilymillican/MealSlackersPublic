@@ -10,19 +10,22 @@ module.exports = app;
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-    response.render('home', {title: 'Boulder Meal Slackerz Homepage'})
+    response.render('home/index', {title: 'Boulder Meal Slackerz Homepage'})
     });
 
-app.get('/add', cel.ensureLoggedIn('/'), function (request, response) {
-    // render views/store/add.ejs
-    response.render('store/add', {
-        title: 'Add New Item',
-        sname: '',
-        qty: '',
-        price: ''
+app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
+    // render home/createEvent.ejs
+    response.render('home/createEvent', {
+        title: 'Create Event'
     })
 });
 
+app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
+    // render home/setting.ejs
+    response.render('home/setting', {
+        title: 'Profile Settings'
+    })
+});
 // Route to insert values. Notice that request method is POST here
 app.post('/add', cel.ensureLoggedIn('/'), function (request, response) {
     // Validate user input - ensure non emptiness
