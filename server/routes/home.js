@@ -10,21 +10,7 @@ module.exports = app;
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-    var query = 'SELECT * FROM store;';
-    db.any(query)
-        .then(function (rows) {
-            response.render('store/list', {
-                title: 'Store listing',
-                data: rows
-              })
-        })
-        .catch(function (err) {
-            request.flash('error', err);
-            response.render('store/list', {
-                title: 'Store listing',
-                data: ''
-            })
-        })
+    response.render('home', {title: 'Boulder Meal Slackerz Homepage'})
     });
 
 app.get('/add', cel.ensureLoggedIn('/'), function (request, response) {
