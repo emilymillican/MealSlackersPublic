@@ -39,7 +39,7 @@ app.use(session({
     secret: 'csci3308',
     resave: false,
     saveUninitialized: true,
-    cookie: {maxAge: 60000}
+    cookie: {maxAge: 300000}
 }));
 app.use(flash());
 
