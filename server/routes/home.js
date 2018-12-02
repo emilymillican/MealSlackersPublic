@@ -10,13 +10,13 @@ module.exports = app;
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-    response.render('home', {title: 'Boulder Meal Slackerz Homepage'})
+    response.render('home/index', {title: 'Boulder Meal Slackerz Homepage'})
     });
 
-app.get('/add', cel.ensureLoggedIn('/'), function (request, response) {
+app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     // render views/store/add.ejs
-    response.render('store/add', {
-        title: 'Add New Item',
+    response.render('home/createEvent', {
+        title: 'Create Event',
         sname: '',
         qty: '',
         price: ''
