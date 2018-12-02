@@ -5,7 +5,8 @@ CSCI Group Project
 ## Github Layout
 
 - **Master branch:** Main branch with the current best project
-- **Name Branches:** Current updated features individuals are working on for review or collaboration
+- **Production branch:** 'master' branch for back-end team to work/test without worrying about stability of project for front-end team to work
+- **Name branches:** Current updated features individuals are working on for review or collaboration
 
 ## Workflow
 
