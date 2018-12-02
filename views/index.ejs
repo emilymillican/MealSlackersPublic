@@ -1,0 +1,28 @@
+<html>
+<head>
+    <!-- 'title' is the data that is passed from the index.js during the response.render function call -->
+    <title><%= title %></title>
+</head>
+<body>
+<div>
+    <a href="/">Home</a> |
+    <a href="/store/add">Add item</a> |
+    <a href="/store">All items</a>
+
+    <form action="/login" method="post">
+        <div>
+        <label>Username:</label>
+        <input type="text" name="username"/><br/>
+        </div>
+        <div>
+        <label>Password:</label>
+        <input type="password" name="password"/>
+        </div>
+        <div>
+        <input type="submit" value="Submit"/>
+        </div>
+    </form>
+</div>
+<h1><%= title %></h1>
+</body>
+</html>
