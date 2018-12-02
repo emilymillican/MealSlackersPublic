@@ -46,6 +46,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(express.static('./css'));
 var index = require('./routes/index');
 var store = require('./routes/store');
 app.use('/', index);

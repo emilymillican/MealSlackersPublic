@@ -1,0 +1,10 @@
+Metting for 10 /05 /18 
+Everyone attended the meeting. 
+
+-Discused group assignment for front end and back end. 
+
+-Drew diagram of our program
+
+- Discussed if we wanted to make it web based or mobile app based, but we decided to make it web based. 
+
+- Discussed how to intergrate a calander in the front of the web page.

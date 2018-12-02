@@ -10,20 +10,15 @@ module.exports = app;
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-        
-
     var query = 'SELECT * FROM store;';
-
     db.any(query)
         .then(function (rows) {
-            // render views/store/list.ejs template file
             response.render('store/list', {
                 title: 'Store listing',
                 data: rows
               })
         })
         .catch(function (err) {
-              // display error message in case an error
             request.flash('error', err);
             response.render('store/list', {
                 title: 'Store listing',
@@ -99,8 +94,8 @@ app.get('/edit/(:id)', cel.ensureLoggedIn('/'),function (request, response) {
     // TODO: Initialize the query variable with a SQL query
     // that returns all columns of an item whose id = itemId in the
     // 'store' table
-    var query = 'SELECT * FROM store WHERE id = $1';
-    db.one(query, itemId)
+    var query = 'SELECT * FROM store WHERE id = $1',itemId;
+    db.one(query)
         .then(function (row) {
             // if item not found
             if (row.length === 0) {

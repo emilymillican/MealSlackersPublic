@@ -1,0 +1,7 @@
+Team meeting 10/30/2018
+Nock, Stian, Jason working on back end. 
+
+Emily, Mao, Diana working on front end.
+Emily - working on homepage
+Diana - working on event creation page, event viewing page
+Mao - login page, profile creation page, edit profile page. 

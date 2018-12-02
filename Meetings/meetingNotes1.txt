@@ -1,0 +1,14 @@
+Metting for 10 /16 /18 
+ Everyone attended the meeting. 
+
+ -Discused Database we were going to use, and we decided that we might use postgress SQL. 
+
+- Discused the interactions and challenges that will come with implementing a search box and the problems with connecting the front end and back end of that functionality.
+
+- Discused email verification and login information. 
+
+- Discussed who wanted to tackle the Dynamic webpage and how it will be updated 
+
+- Taked about possiblly using gitHub for a database, but I do not think we cannot use this.
+
+-Had more discussions about the structure of our whole project.

@@ -1,0 +1,11 @@
+Team meeting 11/6/2018
+
+Team members present Nick Jackson, Stian Howard, Mao, Diana.
+
+
+Nick,Jason, Stian working on backend, learning about firebase. 
+
+Mao - working on login page
+Diana - working on event creation page
+Emily - working on homepage
+
