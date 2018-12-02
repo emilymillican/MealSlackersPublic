@@ -19,12 +19,11 @@
         <th>Name</th>
         <th>Quantity</th>
         <th>Price</th>
-        <th>Action</th>
+        <th>Action </th>
     </tr>
     <% if (data) { %>
     <!-- Using a for-loop to loop over each row in the database.
-    The 'data' variable is passed from the store.js during the
-    response.render function call -->
+    The 'data' variable is passed from the store.js during the response.render function call -->
         <% data.forEach(function(item){ %>
             <tr>
                 <td><%= item.sname %></td>
@@ -32,14 +31,15 @@
                 <td><%= item.price %></td>
                 <td>
                     <div class="edit-delete" style="float:left">
-                    <a href='/store/edit/<%= item.id %>'>Edit</a> &nbsp;
+                        <a href='/store/edit/<%= item.id %>'>Edit</a> &nbsp;
+                        <form action="/store/delete/<%= item.id %>" method="post" style="float:right">
+                            <input name="delete" onclick="return confirm('Are you sure you ' +
+                                                                         'want to delete?')"
+                        
+                                   type="submit" value='Delete'>
+                            <input name="_method" type="hidden" value="DELETE">
+                        </form>
                     </div>
-                    <form action="/store/delete/<%= item.id %>" method="post" style="float:right">
-                        <input name="delete" onclick="return confirm('Are you sure you ' +
-                                                 'want to delete?')"
-                                    type="submit" value='Delete'>
-                        <input name="_method" type="hidden" value="DELETE">
-                    </form>
                 </td>
             </tr>
         <% }) %>

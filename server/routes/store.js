@@ -1,33 +1,33 @@
+/* Stian Howard */
+
 var express = require('express');
 var db = require('../database');
 var app = express();
+var passport = require('passport');
+var cel = require('connect-ensure-login');
 module.exports = app;
 
-app.get('/', function (request, response) {
 
-    // TODO: Initialize the query variable with a SQL query
-    // that returns all the rows and columns in the 'store' table
-    var query = 'SELECT * FROM store';
 
+app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
+    var query = 'SELECT * FROM store;';
     db.any(query)
-      .then(function (rows) {
-          // render views/store/list.ejs template file
-          response.render('store/list', {
-              title: 'Store listing',
-              data: rows
-          })
-      })
-      .catch(function (err) {
-          // display error message in case an error
-          request.flash('error', err);
-          response.render('store/list', {
-              title: 'Store listing',
-              data: ''
-          })
-      })
-});
+        .then(function (rows) {
+            response.render('store/list', {
+                title: 'Store listing',
+                data: rows
+              })
+        })
+        .catch(function (err) {
+            request.flash('error', err);
+            response.render('store/list', {
+                title: 'Store listing',
+                data: ''
+            })
+        })
+    });
 
-app.get('/add', function (request, response) {
+app.get('/add', cel.ensureLoggedIn('/'), function (request, response) {
     // render views/store/add.ejs
     response.render('store/add', {
         title: 'Add New Item',
@@ -38,7 +38,7 @@ app.get('/add', function (request, response) {
 });
 
 // Route to insert values. Notice that request method is POST here
-app.post('/add', function (request, response) {
+app.post('/add', cel.ensureLoggedIn('/'), function (request, response) {
     // Validate user input - ensure non emptiness
     request.assert('sname', 'sname is required').notEmpty();
     request.assert('qty', 'Quantity is required').notEmpty();
@@ -87,7 +87,7 @@ app.post('/add', function (request, response) {
     }
 });
 
-app.get('/edit/(:id)', function (request, response) {
+app.get('/edit/(:id)', cel.ensureLoggedIn('/'),function (request, response) {
     // Fetch the id of the item from the request.
     var itemId = request.params.id;
 
@@ -122,7 +122,7 @@ app.get('/edit/(:id)', function (request, response) {
 });
 
 // Route to update values. Notice that request method is PUT here
-app.put('/edit/(:id)', function (req, res) {
+app.put('/edit/(:id)', cel.ensureLoggedIn('/'), function (req, res) {
     // Validate user input - ensure non emptiness
     req.assert('sname', 'Name is required').notEmpty();
     req.assert('qty', 'Quantity is required').notEmpty();
@@ -145,10 +145,10 @@ app.put('/edit/(:id)', function (req, res) {
         // TODO: Initialize the updateQuery variable with a SQL query
         // that updates the details of an item given its id
         // in the 'store' table
-        var updateQuery = 'UPDATE store SET sname = sname, qty = qty, price = price WHERE id = itemId';
+        var updateQuery = 'UPDATE store SET sname = $1, qty = $2, price = $3 WHERE id = $4;';
 
         // Running SQL query to insert data into the store table
-        db.none(updateQuery)
+        db.none(updateQuery, [item.sname, item.qty, item.price, itemId])
             .then(function (result) {
                 req.flash('success', 'Data updated successfully!');
                 res.redirect('/store');
@@ -176,16 +176,17 @@ app.put('/edit/(:id)', function (req, res) {
         })
     }
 });
+
 // Route to delete an item. Notice that request method is DELETE here
-app.delete('/delete/(:id)', function (req, res) {
+app.delete('/delete/(:id)', cel.ensureLoggedIn('/'), function (req, res) {
     // Fetch item id of the item to be deleted from the request.
     var itemId = req.params.id;
 
     // TODO: Initialize the deleteQuery variable with a SQL query
     // that deletes an item whose id = itemId in the
     // 'store' table
-    var deleteQuery = 'DELETE FROM store WHERE 	id = itemId';
-    db.none(deleteQuery)
+    var deleteQuery = 'DELETE FROM store WHERE id = $1';
+    db.none(deleteQuery, itemId)
         .then(function (result) {
                   req.flash('success', 'successfully deleted it');
                   res.redirect('/store');

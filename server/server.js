@@ -1,4 +1,16 @@
+/* Stian Howard */
+
 var express = require('express');
+
+
+// Authentication Attempt
+
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var db = require('./db');
+
+require('./conf/auth');
+
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -30,6 +42,10 @@ app.use(session({
     cookie: {maxAge: 60000}
 }));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static('./css'));
 var index = require('./routes/index');
 var store = require('./routes/store');
