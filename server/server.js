@@ -30,7 +30,7 @@ app.use(session({
     cookie: {maxAge: 60000}
 }));
 app.use(flash());
-
+app.use(express.static('./css'));
 var index = require('./routes/index');
 var store = require('./routes/store');
 app.use('/', index);
