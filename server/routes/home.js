@@ -14,12 +14,9 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     });
 
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
-    // render views/store/add.ejs
+    // render home/createEvent.ejs
     response.render('home/createEvent', {
-        title: 'Create Event',
-        sname: '',
-        qty: '',
-        price: ''
+        title: 'Create Event'
     })
 });
 
