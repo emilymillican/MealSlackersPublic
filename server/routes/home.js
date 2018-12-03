@@ -3,7 +3,6 @@
 var express = require('express');
 var db = require('../database');
 var app = express();
-var passport = require('passport');
 var cel = require('connect-ensure-login');
 module.exports = app;
 

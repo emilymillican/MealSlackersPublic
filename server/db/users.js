@@ -7,7 +7,7 @@ var db = require('../database');
 var query = 'SELECT * FROM store;';
 db.any(query)
   .then(function (rows) {
-    console.log(rows);
+    //console.log(rows);
   })
   .catch(function (err) {
     console.log(err);

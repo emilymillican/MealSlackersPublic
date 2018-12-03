@@ -6,8 +6,6 @@ var express = require('express');
 // Authentication Attempt
 
 var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
-var db = require('./db');
 
 require('./conf/auth');
 
