@@ -9,8 +9,26 @@ module.exports = app;
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-    response.render('home/index', {title: 'Boulder Meal Slackerz Homepage'})
-    });
+
+    var query = ''; //retriece all events today and into the future
+
+    db.any(query)
+      .then(function(rows) {
+          //render home/index.ejs with events
+          response.render('home/index', {
+              title: 'Boulder Meal Slackerz Homepage',
+              eventData: rows
+          })
+    })
+    .catch(function(err) {
+        // display error message in case of error
+        request.flash('error', err);
+        response.render('home/index', {
+            title: 'Boulder Meal Slackerz Error',
+            eventData: ''
+         })
+     })
+});
 
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     // render home/createEvent.ejs
