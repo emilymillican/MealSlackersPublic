@@ -20,7 +20,7 @@ app.get('/registration', function (request, response) {
 
 app.post('/register', function (request, response) {
    // Validate user input - ensure required fields are filled
-}
+});
 
 app.get('/recover', function (request, response) {
    // render the views/registration.ejs template
