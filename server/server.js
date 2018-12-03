@@ -39,7 +39,7 @@ app.use(session({
     secret: 'csci3308',
     resave: false,
     saveUninitialized: true,
-    cookie: {maxAge: 60000}
+    cookie: {maxAge: 300000}
 }));
 app.use(flash());
 
@@ -48,9 +48,11 @@ app.use(passport.session());
 
 app.use(express.static('./css'));
 var index = require('./routes/index');
-var store = require('./routes/store');
+var home = require('./routes/home');
+var events = require('./routes/events');
 app.use('/', index);
-app.use('/store', store);
+app.use('/home', home);
+app.use('/events', events);
 
 var port = 4000;
 app.listen(port, function () {
