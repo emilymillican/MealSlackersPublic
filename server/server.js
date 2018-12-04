@@ -6,8 +6,6 @@ var express = require('express');
 // Authentication Attempt
 
 var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
-var db = require('./db');
 
 require('./conf/auth');
 
@@ -49,10 +47,8 @@ app.use(passport.session());
 app.use(express.static('./css'));
 var index = require('./routes/index');
 var home = require('./routes/home');
-var events = require('./routes/events');
 app.use('/', index);
 app.use('/home', home);
-app.use('/events', events);
 
 var port = 4000;
 app.listen(port, function () {
