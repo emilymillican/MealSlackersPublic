@@ -8,7 +8,7 @@ app.get('/', function (request, response) {
 });
 
 app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/' }),
+  passport.authenticate('local', { failureFlash: 'Invalid Username / Password' }),
   function(req, res) {
     res.redirect('/home');
   });
