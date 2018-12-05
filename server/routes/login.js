@@ -58,9 +58,7 @@ app.post('/register', function (request, response) {
             .then(function (result) {
                   request.flash('success', 'Data added successfully!');
                   // render views/store/add.ejs
-                  response.render('/success', {
-                     title: 'Created new user'
-                  })
+                  response.redirect('/success')
             }).catch(function (err) {
                request.flash('error', err);
          })
@@ -71,8 +69,10 @@ app.post('/register', function (request, response) {
 });
 
 app.get('/success', function (request, response) {
-   response.render('/login/success')
-})
+   response.render('login/success', {
+      title: "New Profile Creation Successful!"
+   })
+});
 
 app.get('/recover', function (request, response) {
    // render the views/registration.ejs template
