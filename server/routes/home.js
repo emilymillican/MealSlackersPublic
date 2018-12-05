@@ -11,13 +11,14 @@ module.exports = app;
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 
     var query = ''; //retriece all events today and into the future
-
+    var user = request.user
     db.any(query)
       .then(function(rows) {
           //render home/index.ejs with events
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
-              eventData: rows
+              eventData: rows,
+              userData: user
           })
     })
     .catch(function(err) {
@@ -25,22 +26,28 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
         request.flash('error', err);
         response.render('home/index', {
             title: 'Boulder Meal Slackerz Error',
-            eventData: ''
+            eventData: '',
+            userData: user
          })
      })
 });
 
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
+    console.log(request.user)
+    var user = request.user
     // render home/createEvent.ejs
     response.render('home/createEvent', {
-        title: 'Create Event'
+        title: 'Create Event',
+        userData: user
     })
 });
 
 app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
+    var user = request.user
     // render home/setting.ejs
     response.render('home/setting', {
-        title: 'Profile Settings'
+        title: 'Profile Settings',
+        userData: user
     })
 });
 // Route to insert values. Notice that request method is POST here
