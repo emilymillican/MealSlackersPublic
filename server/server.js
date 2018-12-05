@@ -45,9 +45,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static('./css'));
-var index = require('./routes/index');
+var login = require('./routes/login');
 var home = require('./routes/home');
-app.use('/', index);
+app.use('/', login);
 app.use('/home', home);
 
 var port = 4000;
