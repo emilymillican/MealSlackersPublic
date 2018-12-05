@@ -83,6 +83,7 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
                   userData: request.user
           })
        })
+      })
     }
     else {
       var error_msg = errors.reduce((accumulator, current_error)=> accumulator + '<br/>' + current_error.msg, '');
