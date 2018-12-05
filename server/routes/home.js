@@ -11,13 +11,14 @@ module.exports = app;
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 
     var query = ''; //retriece all events today and into the future
-
+    var user = request.user
     db.any(query)
       .then(function(rows) {
           //render home/index.ejs with events
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
-              eventData: rows
+              eventData: rows,
+              userData: user
           })
     })
     .catch(function(err) {
@@ -25,7 +26,8 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
         request.flash('error', err);
         response.render('home/index', {
             title: 'Boulder Meal Slackerz Error',
-            eventData: ''
+            eventData: '',
+            userData: user
          })
      })
 });
