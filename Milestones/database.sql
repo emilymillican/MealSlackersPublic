@@ -25,15 +25,23 @@ INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Disp
 VALUES (123, 'Stian', 'May 2019', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'StianRules', 'Nothing INteresting',
     TRUE, 'irock', 'Student');
 
+INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role)
+VALUES (124, 'Emily', 'May 2021', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'EmilyM', 'Go buffs!', TRUE, 'emilymill', 'Student');
 
-CREATE TABLE IntrestTransTable
+
+CREATE TABLE InterestTransTable
 (
- IntrestID int NOT NULL ,
- Intrest   text NOT NULL ,
+ InterestID int NOT NULL ,
+ Interest   text NOT NULL ,
 
  PRIMARY KEY (IntrestID)
 );
 
+INSERT INTO InterestTransTable (InterestID, Interest)
+VALUES (20, 'Computer Science');
+
+INSERT INTO InterestTransTable (InterestID, Interest)
+VALUES (21, 'Physics');
 
 CREATE TABLE FoodTransTable
 (
@@ -44,15 +52,27 @@ CREATE TABLE FoodTransTable
  PRIMARY KEY (FoodID)
 );
 
-CREATE TABLE IntrestTable
+INSERT INTO FoodTransTable (FoodID, Name, Description)
+VALUES (10, 'Pizza', 'Pepperoni');
+
+INSERT INTO FoodTransTable (FoodID, Name, Description)
+VALUES (11, 'Pizza', 'Cheese');
+
+CREATE TABLE InterestTable
 (
  UserID    int NOT NULL ,
- IntrestID int NOT NULL ,
+ InterestID int NOT NULL ,
 
 
  FOREIGN KEY (UserID)  REFERENCES UserTable(UserID),
- FOREIGN KEY (IntrestID)  REFERENCES IntrestTransTable(IntrestID)
+ FOREIGN KEY (InterestID)  REFERENCES InterestTransTable(InterestID)
 );
+
+INSERT INTO InterestTable(UserID, InterestID)
+VALUES (123, 21);
+
+INSERT INTO InterestTable(UserID, InterestID)
+VALUES (124, 20);
 
 CREATE TABLE EventTable
 (
@@ -69,6 +89,14 @@ CREATE TABLE EventTable
  FOREIGN KEY (UserID)  REFERENCES UserTable(UserID)
 );
 
+INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName. Description, EventType, UserID)
+VALUES (245, 2018-12-6 12:00:00, 'Norlin', 'Lobby', 'Speaker: Joe Biden', 'Come join the Arts and Sciences Department to hear Joe Biden speak!',
+    'Presentation', 123);
+
+INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName. Description, EventType, UserID)
+VALUES (246, 2018-12-10 10:30:00, 'ECCR', '104', 'Math Club Meeting', 'The CU Math Club will be having its weekly meeting, with a focus placed on Calculus 2 help', 
+    'Lecture', 124);
+
 CREATE TABLE FoodTable
 (
  EventID int NOT NULL ,
@@ -77,3 +105,9 @@ CREATE TABLE FoodTable
  FOREIGN KEY (EventID)  REFERENCES EventTable(EventID),
  FOREIGN KEY (FoodID)  REFERENCES FoodTransTable(FoodID)
 );
+
+INSERT INTO FoodTable (EventID, FoodID)
+VALUES (245, 10);
+
+INSERT INTO FoodTable (EventID, FoodID)
+VALUES (246, 11);
