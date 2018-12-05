@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var passport = require('passport');
+var db = require('../database');
 
 app.get('/', function (request, response) {
    // render the views/loginPage.ejs template file
@@ -21,55 +22,52 @@ app.get('/registration', function (request, response) {
 app.post('/register', function (request, response) {
    //Check which values need to be included/ match requirements
    request.assert('Name', 'Name is required').notEmpty();
-   request.assert('email', 'Name is required').notEmpty();
-   request.assert('Password1', 'Name is required').notEmpty();
-   request.assert('Password2', 'Name is required').notEmpty();
-   request.assert('Major', 'Name is required').notEmpty();
+   request.assert('email', 'Email is required').notEmpty();
+   request.assert('Password1', 'password is required').notEmpty();
+   request.assert('Password2', 'password is required').notEmpty();
+   request.assert('Major', 'major is required').notEmpty();
+   request.assert('Profilephoto', 'Ensure you have a profile picture url').notEmpty();
    request.assert('Hometown', 'Hometown is required').notEmpty();
-   request.assert('Month', 'Name is required').notEmpty();
-   request.assert('Year', 'Name is required').notEmpty();
-   request.assert('Description', 'Name is required').notEmpty();
+   request.assert('role','Role is required').notEmpty();
+   request.assert('Month', 'Month is required').notEmpty();
+   request.assert('Year', 'year is required').notEmpty();
+   request.assert('Description', 'Description is required').notEmpty();
+
 
    var errors = request.validationErrors();
    if (!errors) {
-      //Put the inputs into an object and 'clean' them
-      var user = {
-         userid: 1234,   //Check db for current highest, +1
-         email: request.sanitize('email').escape().trim(),
-         graduation: request.sanitize('Month').escape().trim() + ' ' + request.sanitize('Year').escape().trim(),
-         photourl: 'test', //Have Emily make a field for this
-         displayname: request.sanitize('Name').escape().trim(),
-         description: request.sanitize('description').escape().trim(),
-         verified: true,
-         password: request.sanitize('Password1').escape().trim(),
-         role: 'Student',  //Add Radio setup
-         major: request.sanitize('Major').escape().trim(),
-         hometown: request.sanitize('Hometown').escape().trim()
-      };
-      // Input items into database
-      db.none('INSERT INTO UserTable(UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-             [item.userid, item.email, item.graduation, item.photourl, item.displayname, item.description, item.verified, item.password, item.password, item.role, item.major, item.hometown])
-         .then(function (result) {
-               request.flash('success', 'Data added successfully!');
-               // render views/store/add.ejs
-               response.render('store/add', {
-                  title: 'Add New Item',
-                  sname: '',
-                  qty: '',
-                  price: ''
-               })
-         }).catch(function (err) {
-         request.flash('error', err);
-         // render views/store/add.ejs
-         response.render('store/add', {
-               title: 'Add New Item',
-               sname: item.sname,
-               qty: item.qty,
-               price: item.price
+      db.one('select max(userid) from usertable;').then(data => {
+         //Put the inputs into an object and 'clean' them
+         
+         var item = {
+            userid: Number(data.max) + 1,   //Check db for current highest, +1
+            email: request.sanitize('email').escape().trim(),
+            graduation: request.sanitize('Month').escape().trim() + ' ' + request.sanitize('Year').escape().trim(),
+            photourl: request.sanitize('Profilephoto').escape().trim(),
+            displayname: request.sanitize('Name').escape().trim(),
+            description: request.sanitize('Description').escape().trim(),
+            verified: true,
+            password: request.sanitize('Password1').escape().trim(),
+            role: request.sanitize('role').escape().trim(),
+            major: request.sanitize('Major').escape().trim(),
+            hometown: request.sanitize('Hometown').escape().trim()
+         };
+         // Input items into database
+         db.none('INSERT INTO UserTable(UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
+                [item.userid, item.email, item.graduation, item.photourl, item.displayname, item.description, item.verified, item.password, item.role, item.major, item.hometown])
+            .then(function (result) {
+                  request.flash('success', 'Data added successfully!');
+                  // render views/store/add.ejs
+                  response.render('/success', {
+                     title: 'Created new user'
+                  })
+            }).catch(function (err) {
+               request.flash('error', err);
          })
+      }).catch(function (err) {
+         request.flash('error',err);
       })
    }
-
 });
 
 app.get('/success', function (request, response) {
