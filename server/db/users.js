@@ -4,8 +4,8 @@
 ]; */
 
 var records = [
-    {UserID: 1, UserEmail: 'test@gmail.com', username:'Stian',Password:'test', Displayname:'Stian'}
-
+    {UserID: 1, UserEmail: 'test@gmail.com', Password:'test', Displayname:'Stian'},
+    {UserID: 2, UserEmail: 'jack@gmail.com', Password:'secret', Displayname:'jack'}
 ];
 
 var db = require('../database');
