@@ -17,17 +17,21 @@ CREATE TABLE UserTable
  Verified           bool NOT NULL ,
  Password           text NOT NULL ,
  Role               text NOT NULL ,
+ Major              text NOT NULL , 
+ Hometown           text NOT NULL ,
 
  PRIMARY KEY (UserID)
 );
 
-INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role)
-VALUES (123, 'Stian', 'May 2019', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'StianRules', 'Nothing INteresting',
-    TRUE, 'irock', 'Student');
+INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown)
+VALUES (123, 'Stian@colorado.edu', 'May 2019', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'StianRules', 'Nothing INteresting',
+    TRUE, 'irock', 'Student', 'Physics', 'N/A');
 
-INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role)
-VALUES (124, 'Emily', 'May 2021', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'EmilyM', 'Go buffs!', TRUE, 'emilymill', 'Student');
+INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown)
+VALUES (124, 'Emily@colorado.edu', 'May 2021', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'EmilyM', 'Go buffs!', TRUE, 'emilymill', 'Student', 'C.S.', 'Longmont');
 
+INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown)
+VALUES (125, 'jacke', 'May 2021', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'jack', 'Go buffs!', TRUE, 'secret', 'Student', 'Hill tumbling', 'Scolty');
 
 CREATE TABLE InterestTransTable
 (
