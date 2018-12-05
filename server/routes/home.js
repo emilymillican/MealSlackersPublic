@@ -4,8 +4,6 @@ var express = require('express');
 var db = require('../database');
 var app = express();
 var cel = require('connect-ensure-login');
-module.exports = app;
-
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
@@ -42,6 +40,50 @@ app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
         userData: user
     })
 });
+
+//TODO: Add food support
+//Also can't get the post requests to push through.... hm....
+app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
+    //Check which values need to be included/ match requirements
+    
+    console.log(request.body.eventtime); //Trying to check format for the eventdate slot
+    request.assert('eventname', 'Event Name is required').notEmpty();
+    request.assert('eventdescription', 'A description is required').notEmpty();
+    request.assert('eventdate', 'Date is required').notEmpty();
+    request.assert('eventbuilding', 'Building is required').notEmpty();
+    request.assert('eventroom', 'Room is required').notEmpty();
+ 
+    var errors = request.validationErrors();
+ 
+    if (!errors) {
+       db.one('select max(eventid) from eventtable;').then(data => {
+          //Put the inputs into an object and 'clean' them
+          
+          var item = {
+             eventid: Number(data.max) + 1,   //Check db for current highest, +1
+             eventdate: request.sanitize('eventdate').escape().trim(), //Might need format edits
+             eventbuilding: request.sanitize('eventbuilding').escape().trim(),
+             eventroom: request.sanitize('eventroom').escape().trim(),
+             eventname: request.sanitize('eventname').escape().trim(),
+             eventdescription: request.sanitize('eventdescription').escape().trim(),
+             eventtype: 'test',
+             userid: request.user.userid
+          };
+          // Input items into database
+          db.none('INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',
+                 [item.eventid, item.eventdate, item.eventbuilding, item.eventroom, item.eventname, item.eventdescription, item.eventtype, item.userid])
+             .then(function (result) {
+                   request.flash('success', 'Data added successfully!');
+                   // render views/store/add.ejs
+                   response.redirect('/')
+             }).catch(function (err) {
+                request.flash('error', err);
+          })
+       }).catch(function (err) {
+          request.flash('error',err);
+       })
+    }
+ });
 
 app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
     var user = request.user
@@ -210,3 +252,6 @@ app.delete('/delete/(:id)', cel.ensureLoggedIn('/'), function (req, res) {
                    res.redirect('/store')
         })
 });
+
+
+module.exports = app;

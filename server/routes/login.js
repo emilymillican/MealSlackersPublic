@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var passport = require('passport');
+var db = require('../database');
 
 app.get('/', function (request, response) {
    // render the views/loginPage.ejs template file
@@ -18,8 +19,67 @@ app.get('/registration', function (request, response) {
    response.render('login/registration', {title: 'Register'})
 });
 
+//TODO: Return error messages for the password check and e-mail checks and go back to page without losing info
 app.post('/register', function (request, response) {
-   // Validate user input - ensure required fields are filled
+   //Check which values need to be included/ match requirements
+   request.assert('Name', 'Name is required').notEmpty();
+   request.assert('email', 'Email is required').notEmpty();
+   request.assert('Password1', 'password is required').notEmpty();
+   request.assert('Password2', 'password is required').notEmpty();
+   request.assert('Major', 'major is required').notEmpty();
+   request.assert('Profilephoto', 'Ensure you have a profile picture url').notEmpty();
+   request.assert('Hometown', 'Hometown is required').notEmpty();
+   request.assert('role','Role is required').notEmpty();
+   request.assert('Month', 'Month is required').notEmpty();
+   request.assert('Year', 'year is required').notEmpty();
+   request.assert('Description', 'Description is required').notEmpty();
+
+   var errors = request.validationErrors();
+
+   //Additional tests
+   if (request.body.password1 != request.body.password2) {
+      //Need to return error function
+      response.redirect('/registration');
+   } else if (request.body.email[-13] != '@colorado.edu') {
+      //Still Uncertain...
+      response.redirect('/registration');
+   } else if (!errors) {
+      db.one('select max(userid) from usertable;').then(data => {
+         //Put the inputs into an object and 'clean' them
+         
+         var item = {
+            userid: Number(data.max) + 1,   //Check db for current highest, +1
+            email: request.sanitize('email').escape().trim(),
+            graduation: request.sanitize('Month').escape().trim() + ' ' + request.sanitize('Year').escape().trim(),
+            photourl: request.sanitize('Profilephoto').escape().trim(),
+            displayname: request.sanitize('Name').escape().trim(),
+            description: request.sanitize('Description').escape().trim(),
+            verified: true,
+            password: request.sanitize('Password1').escape().trim(),
+            role: request.sanitize('role').escape().trim(),
+            major: request.sanitize('Major').escape().trim(),
+            hometown: request.sanitize('Hometown').escape().trim()
+         };
+         // Input items into database
+         db.none('INSERT INTO UserTable(UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
+                [item.userid, item.email, item.graduation, item.photourl, item.displayname, item.description, item.verified, item.password, item.role, item.major, item.hometown])
+            .then(function (result) {
+                  request.flash('success', 'Data added successfully!');
+                  // render views/store/add.ejs
+                  response.redirect('/success')
+            }).catch(function (err) {
+               request.flash('error', err);
+         })
+      }).catch(function (err) {
+         request.flash('error',err);
+      })
+   }
+});
+
+app.get('/success', function (request, response) {
+   response.render('login/success', {
+      title: "New Profile Creation Successful!"
+   })
 });
 
 app.get('/recover', function (request, response) {
