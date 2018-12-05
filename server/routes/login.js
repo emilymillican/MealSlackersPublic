@@ -37,13 +37,14 @@ app.post('/register', function (request, response) {
    var errors = request.validationErrors();
 
    //Additional tests
+   if(!errors){
    if (request.body.password1 != request.body.password2) {
       //Need to return error function
       response.redirect('/registration');
-   } else if (request.body.email[-13] != '@colorado.edu') {
-      //Still Uncertain...
-      response.redirect('/registration');
-   } else if (!errors) {
+   } // else if (request.body.email[-13] != '@colorado.edu') {
+   //    //Still Uncertain...
+   //    response.redirect('/registration');
+   // }
       db.one('select max(userid) from usertable;').then(data => {
          //Put the inputs into an object and 'clean' them
          
@@ -66,7 +67,7 @@ app.post('/register', function (request, response) {
             .then(function (result) {
                   request.flash('success', 'Data added successfully!');
                   // render views/store/add.ejs
-                  response.redirect('/success')
+                  response.redirect('/')
             }).catch(function (err) {
                request.flash('error', err);
          })
