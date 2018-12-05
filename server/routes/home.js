@@ -83,6 +83,14 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
           request.flash('error',err);
        })
     }
+    else {
+      var error_msg = errors.reduce((accumulator, current_error)=> accumulator + '<br/>' + current_error.msg, '');
+      request.flash('error', error_msg);
+      response.render('home/createEvent', {
+          title: 'Create Error',
+          userData: request.user
+      })
+    }
  });
 
 app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
