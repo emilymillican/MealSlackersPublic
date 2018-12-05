@@ -19,6 +19,7 @@ app.get('/registration', function (request, response) {
    response.render('login/registration', {title: 'Register'})
 });
 
+//TODO: Return error messages for the password check and e-mail checks and go back to page without losing info
 app.post('/register', function (request, response) {
    //Check which values need to be included/ match requirements
    request.assert('Name', 'Name is required').notEmpty();
@@ -33,9 +34,16 @@ app.post('/register', function (request, response) {
    request.assert('Year', 'year is required').notEmpty();
    request.assert('Description', 'Description is required').notEmpty();
 
-
    var errors = request.validationErrors();
-   if (!errors) {
+
+   //Additional tests
+   if (request.body.password1 != request.body.password2) {
+      //Need to return error function
+      response.redirect('/registration');
+   } else if (request.body.email[-13] != '@colorado.edu') {
+      //Still Uncertain...
+      response.redirect('/registration');
+   } else if (!errors) {
       db.one('select max(userid) from usertable;').then(data => {
          //Put the inputs into an object and 'clean' them
          
