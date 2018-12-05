@@ -10,7 +10,7 @@ module.exports = app;
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 
-    var query = ''; //retriece all events today and into the future
+    var query = 'SELECT * FROM EventTable'; //retriece all events today and into the future
     var user = request.user
     db.any(query)
       .then(function(rows) {
