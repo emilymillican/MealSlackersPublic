@@ -78,7 +78,43 @@ exports.findByEmail = function(email, cb) {
   })
 }
 
+/* exports.findByUsername = function(username, cb) {
+
+  process.nextTick(function() {
+    for (var i = 0, len = records.length; i < len; i++) {
+      var record = records[i];
+      if (record.Displayname === username) {
+        return cb(null, record);
+      }
+    }
+    return cb(null, null);
+  });
+}; */
+
 exports.findByUsername = function(username, cb) {
+  var query = 'SELECT * FROM UserTable where Displayname = $1;';
+  db.one(query, username)
+  .then(function (rows) {
+    var records = rows;
+    process.nextTick(function() {
+      for (var i = 0, len = records.length; i < len; i++) {
+        var record = records[i];
+        if (record.UserEmail === email) {
+          return cb(null, record);
+        }
+      }
+      return cb(null, null);
+    });
+  })
+  .catch(function (err) {
+    console.log(err);
+    return cb(null, null);
+    //Figure out how the hell to handle this error of not return good data
+    //Probably return it as a null or something like that, then let passport deal with it
+    //along with a console.log of the error
+  })
+
+
 
   process.nextTick(function() {
     for (var i = 0, len = records.length; i < len; i++) {
