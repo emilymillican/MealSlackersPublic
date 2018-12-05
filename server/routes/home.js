@@ -14,7 +14,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     var user = request.user
     db.any(query)
       .then(function(rows) {
-          console.log(rows);
+          //console.log(rows);
           //render home/index.ejs with events
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
@@ -34,7 +34,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 });
 
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
-    console.log(request.user)
+    //console.log(request.user)
     var user = request.user
     // render home/createEvent.ejs
     response.render('home/createEvent', {
