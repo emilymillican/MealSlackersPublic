@@ -75,7 +75,10 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
              .then(function (result) {
                    request.flash('success', 'Data added successfully!');
                    // render createEvent page with successful event creation
-                   response.render('home/createEvent')
+                   response.render('home/createEvent',{
+                     title: 'Event Created',
+                     userData: request.user
+                   })
              }).catch(function (err) {
                 request.flash('error', err);
                 response.render('home/createEvent', {
