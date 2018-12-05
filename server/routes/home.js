@@ -33,9 +33,12 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 });
 
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
+    console.log(request.user)
+    var user = request.user
     // render home/createEvent.ejs
     response.render('home/createEvent', {
-        title: 'Create Event'
+        title: 'Create Event',
+        userData: user
     })
 });
 
