@@ -1,9 +1,9 @@
 -- Remove the old tables to clear them
 DROP TABLE FoodTable;
 DROP TABLE EventTable;
-DROP TABLE IntrestTable;
+DROP TABLE InterestTable;
 DROP TABLE FoodTransTable;
-DROP TABLE IntrestTransTable;
+DROP TABLE InterestTransTable;
 DROP TABLE UserTable;
 
 CREATE TABLE UserTable
@@ -14,7 +14,7 @@ CREATE TABLE UserTable
  UserPhotoURL       text NOT NULL ,
  Displayname        text NOT NULL ,
  Description        text NOT NULL ,
- Verified           bit NOT NULL ,
+ Verified           bool NOT NULL ,
  Password           text NOT NULL ,
  Role               text NOT NULL ,
 
@@ -34,7 +34,7 @@ CREATE TABLE InterestTransTable
  InterestID int NOT NULL ,
  Interest   text NOT NULL ,
 
- PRIMARY KEY (IntrestID)
+ PRIMARY KEY (InterestID)
 );
 
 INSERT INTO InterestTransTable (InterestID, Interest)
@@ -89,12 +89,12 @@ CREATE TABLE EventTable
  FOREIGN KEY (UserID)  REFERENCES UserTable(UserID)
 );
 
-INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName. Description, EventType, UserID)
-VALUES (245, 2018-12-6 12:00:00, 'Norlin', 'Lobby', 'Speaker: Joe Biden', 'Come join the Arts and Sciences Department to hear Joe Biden speak!',
+INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID)
+VALUES (245, '2018-12-6 12:00:00', 'Norlin', 'Lobby', 'Speaker: Joe Biden', 'Come join the Arts and Sciences Department to hear Joe Biden speak!',
     'Presentation', 123);
 
-INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName. Description, EventType, UserID)
-VALUES (246, 2018-12-10 10:30:00, 'ECCR', '104', 'Math Club Meeting', 'The CU Math Club will be having its weekly meeting, with a focus placed on Calculus 2 help', 
+INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID)
+VALUES (246, '2018-12-10 10:30:00', 'ECCR', '104', 'Math Club Meeting', 'The CU Math Club will be having its weekly meeting, with a focus placed on Calculus 2 help', 
     'Lecture', 124);
 
 CREATE TABLE FoodTable
