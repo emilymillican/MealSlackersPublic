@@ -106,6 +106,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
                     <input type="text" id="nname" name="eventroom" placeholder="Enter event location" size="75" style="min-height:40px">
                   </p>
                 <br>
+                <% if (messages.error) { %>
+                  <p style='color:red'><%- messages.error %></p>
+                <% } %>
+                <% if (messages.success) { %>
+                  <p style='color:green'><%- messages.success %></p>
+                <% } %>
                 <input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px;" >
               </form>
             </div>
