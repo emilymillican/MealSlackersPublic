@@ -21,6 +21,10 @@ CREATE TABLE UserTable
  PRIMARY KEY (UserID)
 );
 
+INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role)
+VALUES (123, 'Stian', 'May 2019', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'StianRules', 'Nothing INteresting',
+    TRUE, 'irock', 'Student');
+
 
 CREATE TABLE IntrestTransTable
 (
