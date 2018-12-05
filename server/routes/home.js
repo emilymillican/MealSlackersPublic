@@ -14,6 +14,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     var user = request.user
     db.any(query)
       .then(function(rows) {
+          console.log(rows);
           //render home/index.ejs with events
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
