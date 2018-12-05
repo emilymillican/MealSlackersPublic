@@ -40,9 +40,11 @@ app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
 });
 
 app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
+    var user = request.user
     // render home/setting.ejs
     response.render('home/setting', {
-        title: 'Profile Settings'
+        title: 'Profile Settings',
+        userData: user
     })
 });
 // Route to insert values. Notice that request method is POST here
