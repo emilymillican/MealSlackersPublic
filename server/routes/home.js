@@ -46,7 +46,7 @@ app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
 app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
     //Check which values need to be included/ match requirements
     
-    console.log(request.body.eventtime); //Trying to check format for the eventdate slot
+    console.log(request.body.eventdate); //Trying to check format for the eventdate slot
     request.assert('eventname', 'Event Name is required').notEmpty();
     request.assert('eventdescription', 'A description is required').notEmpty();
     request.assert('eventdate', 'Date is required').notEmpty();
@@ -54,7 +54,7 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
     request.assert('eventroom', 'Room is required').notEmpty();
  
     var errors = request.validationErrors();
- 
+    console.log(errors); //errors to console
     if (!errors) {
        db.one('select max(eventid) from eventtable;').then(data => {
           //Put the inputs into an object and 'clean' them
@@ -74,20 +74,21 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
                  [item.eventid, item.eventdate, item.eventbuilding, item.eventroom, item.eventname, item.eventdescription, item.eventtype, item.userid])
              .then(function (result) {
                    request.flash('success', 'Data added successfully!');
-                   // render views/store/add.ejs
-                   response.redirect('/')
+                   // render createEvent page with successful event creation
+                   response.render('home/createEvent')
              }).catch(function (err) {
                 request.flash('error', err);
+                response.render('home/createEvent', {
+                  title: 'Database Error',
+                  userData: request.user
           })
-       }).catch(function (err) {
-          request.flash('error',err);
        })
     }
     else {
       var error_msg = errors.reduce((accumulator, current_error)=> accumulator + '<br/>' + current_error.msg, '');
       request.flash('error', error_msg);
       response.render('home/createEvent', {
-          title: 'Create Error',
+          title: 'Input Error',
           userData: request.user
       })
     }
