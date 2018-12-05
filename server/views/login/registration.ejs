@@ -23,19 +23,26 @@
         <h1 style=" font-weight: normal; font-size: 30px; margin-left:30%">Register:</h1>
      
 	<br>
-		
+	<form action="/register" method="post">	
 		<h4 style="margin-left:30%">Name</h4>
 		<input type="text" name="Name" value="" placeholder="Enter name" size="75" style="margin-left:30%; min-height:40px">
 		<br>
 		<h4 style="margin-left:30%">Email Address</h4>
-		<input type="email" name="Password" value="" placeholder="Enter email address" size="75" style="margin-left:30%; min-height:40px">
+		<input type="email" name="email" value="" placeholder="Enter email address" size="75" style="margin-left:30%; min-height:40px">
 		<h4 style="margin-left:30%">Password</h4>
-		<input type="Password" name="Email address" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
+		<input type="Password" name="Password1" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
 		<br>
 		<h4 style="margin-left:30%">Confirm Password</h4>
-		<input type="Password" name="Password" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
+		<input type="Password" name="Password2" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
 		<br>
 		<h4 style="margin-left:30%">Major</h4>
+		<input type="text" name="Major" value="" placeholder="Major" size="75" style="margin-left:30%; min-height:40px">
+		<br>
+		<h4 style="margin-left:30%">Hometown</h4>
+		<input type="text" name="Hometown" value="Boulder" placeholder="Enter hometown" size="75" style="margin-left:30%; min-height:40px">
+		<br>
+		<br>
+		<h4 style="margin-left:30%">Interests</h4>
 		<div id="table">
 			<input type="checkbox" name ="Interests" value="CS">CS
 			<input type="checkbox" name ="Interests" value="Engineering">Engineering
@@ -46,52 +53,24 @@
 			<input type="checkbox" name ="Interests" value="Music/Theater/Dance">Music/Theater/Dance
 		</div>
 		<br>
-		<h4 style="margin-left:30%">Hometown</h4>
-			<input type="text" name="Hometown" value="" placeholder="Enter hometown" size="75" style="margin-left:30%; min-height:40px">
-			<br>
-			<br>
-			<h4 style="margin-left:30%">Interests</h4>
-			<div id="table">
-			<input type="checkbox" name ="Interests" value="CS">CS
-			<input type="checkbox" name ="Interests" value="Engineering">Engineering
-			<input type="checkbox" name ="Interests" value="Physics">Physics
-			<input type="checkbox" name ="Interests" value="Math">Math
-			<input type="checkbox" name ="Interests" value="Arts and Science">Arts and Science
-			<input type="checkbox" name ="Interests" value="Business">Business
-			<input type="checkbox" name ="Interests" value="Music/Theater/Dance">Music/Theater/Dance
-		</div>
+
+		<h4 style="margin-left:30%">Class</h4>
+		<select id="Month" name="month" size="75" style="margin-left:30%; height:20px">
+			<option value="Spring">Spring</option>
+			<option value="Fall">Fall</option>
+			<option value="Summer">Summer</option>
+		</select>
+		<input type="number" name="Year" value="2018" size="75" style="left:0; min-height:40px">
 		<br>
-			
-			
-			<h4 style="margin-left:30%">Food Preferences</h4>
-			<div id="table">
-			<input type="checkbox" name="Food" value="Pizza">Pizza
-			<input type="checkbox" name="Food" value="Sandwiches">Sandwiches
-			<input type="checkbox" name="Food" value="Cookies">Cookies
-			<input type="checkbox" name="Food" value="Snacks and Drinks">Snacks and Drinks
-			</div>
-		
-		<br>
-		
-			
-			<h4 style="margin-left:30%">Class</h4>
-			<div id="table">
-			<input type="radio" name="Class" value="Freshman" checked>Freshman<br>
-			<input type="radio" name="Class" value="Sophomore" >Sophomore<br>
-			<input type="radio" name="Class" value="Junior" >Junior<br>
-			<input type="radio" name="Class" value="Senior" >Senior<br>
-			<input type="radio" name="Class" value="Other" >Other<br>
-		</div>
-			
-			<br>
+
 		<h4 style="margin-left:30%">Additional Information</h4>
 		<div id="table">
 			<p>About Me</p>
-			<textarea name="message" rows="4" cols="75"></textarea>
+			<textarea name="Description" value="Nah... I don't wanna share..." rows="4" cols="75"></textarea>
 		</div>
-			<br>
-			<br>
-			<input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px; margin-left:30%; margin-bottom: 20px" >
-
+		<br>
+		<br>
+		<input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px; margin-left:30%; margin-bottom: 20px" >
+	</form>
 			
 </html>
