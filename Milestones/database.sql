@@ -24,8 +24,7 @@ CREATE TABLE UserTable
 );
 
 INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown)
-VALUES (123, 'Stian@colorado.edu', 'May 2019', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'StianRules', 'Nothing INteresting',
-    TRUE, 'irock', 'Student', 'Physics', 'N/A');
+VALUES (123, 'Stian@colorado.edu', 'May 2019', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'StianRules', 'Nothing INteresting',TRUE, 'irock', 'Student', 'Physics', 'N/A');
 
 INSERT INTO UserTable (UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown)
 VALUES (124, 'Emily@colorado.edu', 'May 2021', 'https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png', 'EmilyM', 'Go buffs!', TRUE, 'emilymill', 'Student', 'C.S.', 'Longmont');
