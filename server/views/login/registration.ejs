@@ -16,78 +16,69 @@
 	</style>
 		
 </head>
-	<body style="margin-top:0px; margin-left:0px; margin-right:0px">
-	<%- include ../layouts/loginHeader.ejs %>
-	<br>
+<body style="margin-top:0px; margin-left:0px; margin-right:0px">
+		<%- include ../layouts/loginHeader.ejs %>
+		<br>
         <h1 style="text-align:center; font-weight: normal; font-size: 35px">Welcome to Meal Slackers</h1>
         <h1 style=" font-weight: normal; font-size: 30px; margin-left:30%">Register:</h1>
-     
-	<br>
-	<form action="/register" method="post">	
-		<h4 style="margin-left:30%">Name</h4>
-		<input type="text" name="Name" value="" placeholder="Enter name" size="75" style="margin-left:30%; min-height:40px">
+		
 		<br>
-		<h4 style="margin-left:30%">Email Address</h4>
-		<input type="email" name="email" value="" placeholder="Enter email address" size="75" style="margin-left:30%; min-height:40px">
-		<h4 style="margin-left:30%">Password</h4>
-		<input type="Password" name="Password1" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
-		<br>
-		<h4 style="margin-left:30%">Confirm Password</h4>
-		<input type="Password" name="Password2" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
-		<br>
-		<h4 style="margin-left:30%">Major</h4>
-		<input type="text" name="Major" value="" placeholder="Major" size="75" style="margin-left:30%; min-height:40px">
-		<br>
-		<h4 style="margin-left:30%">Profile Photo URL</h4>
-		<input type="text" name="Profilephoto" value="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png" placeholder="Profile Photo" size="75" style="margin-left:30%; min-height:40px">
-		<br>
-		<h4 style="margin-left:30%">Hometown</h4>
-		<input type="text" name="Hometown" value="Boulder" placeholder="Enter hometown" size="75" style="margin-left:30%; min-height:40px">
-		<br>
-		<br>
-		<h4 style="margin-left:30%">Interests</h4>
-		<div id="table">
-			<input type="checkbox" name ="Interests" value="CS">CS
-			<input type="checkbox" name ="Interests" value="Engineering">Engineering
-			<input type="checkbox" name ="Interests" value="Physics">Physics
-			<input type="checkbox" name ="Interests" value="Math">Math
-			<input type="checkbox" name ="Interests" value="Arts and Science">Arts and Science
-			<input type="checkbox" name ="Interests" value="Business">Business
-			<input type="checkbox" name ="Interests" value="Music/Theater/Dance">Music/Theater/Dance
-		</div>
-		<br>
-		<h4 style="margin-left:30%">Role</h4>
-		<div id="table">
-		<input type="radio" name="role" value="Student" checked="checked">Student
-		<input type="radio" name="role" value="Faculty">Faculty
-		<input type="radio" name="role" value="Organization">Organization
-		</div>
-		<br>
-
-
-		<h4 style="margin-left:30%">Class</h4>
-		<div id="table">
-		<input type="radio" name="Month" value="Spring">Spring
-		<input type="radio" name="Month" value="Spring">Fall
-		<input type="radio" name="Month" value="Spring">Summer
-		</div>
-
-		<!-- <select id="Month" name="Month" value="Spring" size="75" style="margin-left:30%; height:40px">
-			<option value="Spring" selected="selected">Spring</option>
-			<option value="Fall">Fall</option>
-			<option value="Summer">Summer</option>
-		</select> -->
-		<input type="number" name="Year" value="2018" size="20"  style="left:0;  height:30px;width:60px; position:absolute; margin-left: 30%; margin-top: 5px;">
-		<br>
-
-		<h4 style="margin-left:30%">Additional Information</h4>
-		<div id="table">
-			<p>About Me</p>
-			<textarea name="Description" value="Nah... I don't wanna share..." rows="4" cols="75"></textarea>
-		</div>
-		<br>
-		<br>
-		<input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px; margin-left:30%; margin-bottom: 20px" >
-	</form>
-			
-</html>
+		<form action="/register" method="post">	
+			<h4 style="margin-left:30%">Name</h4>
+			<input type="text" name="Name" value="" placeholder="Enter name" size="75" style="margin-left:30%; min-height:40px">
+			<br>
+			<h4 style="margin-left:30%">Email Address</h4>
+			<input type="email" name="email" value="" placeholder="Enter email address" size="75" style="margin-left:30%; min-height:40px">
+			<h4 style="margin-left:30%">Password</h4>
+			<input type="Password" name="Password1" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
+			<br>
+			<h4 style="margin-left:30%">Confirm Password</h4>
+			<input type="Password" name="Password2" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
+			<br>
+			<h4 style="margin-left:30%">Major</h4>
+			<input type="text" name="Major" value="" placeholder="Major" size="75" style="margin-left:30%; min-height:40px">
+			<br>
+			<h4 style="margin-left:30%">Class</h4>
+			<div id="table">
+				<input type="radio" name="Month" value="Spring">Spring
+				<input type="radio" name="Month" value="Spring">Fall
+				<input type="radio" name="Month" value="Spring">Summer
+				<input type="number" name="Year" value="2018" size="20"  style="left:0; height:30px; width:60px; margin-top:5px;">
+			</div>
+			<br>
+			<h4 style="margin-left:30%">Role</h4>
+			<div id="table">
+				<input type="radio" name="role" value="Student" checked="checked">Student
+				<input type="radio" name="role" value="Faculty">Faculty
+				<input type="radio" name="role" value="Organization">Organization
+			</div>
+			<br>
+			<h4 style="margin-left:30%">Hometown</h4>
+			<input type="text" name="Hometown" value="Boulder" placeholder="Enter hometown" size="75" style="margin-left:30%; min-height:40px">
+			<br>
+			<br>
+			<h4 style="margin-left:30%">Interests</h4>
+			<div id="table">
+				<input type="checkbox" name ="Interests" value="CS">CS
+				<input type="checkbox" name ="Interests" value="Engineering">Engineering
+				<input type="checkbox" name ="Interests" value="Physics">Physics
+				<input type="checkbox" name ="Interests" value="Math">Math
+				<input type="checkbox" name ="Interests" value="Arts and Science">Arts and Science
+				<input type="checkbox" name ="Interests" value="Business">Business
+				<input type="checkbox" name ="Interests" value="Music/Theater/Dance">Music/Theater/Dance
+			</div>
+			<br>
+			<h4 style="margin-left:30%">Additional Information</h4>
+			<div id="table">
+				<p>About Me</p>
+				<textarea name="Description" value="Nah... I don't wanna share..." rows="4" cols="75"></textarea>
+			</div>
+			<br>
+			<h4 style="margin-left:30%">Profile Photo URL</h4>
+			<input type="text" name="Profilephoto" value="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png" placeholder="Profile Photo" size="75" style="margin-left:30%; min-height:40px">
+			<br>
+			<br>
+			<input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px; margin-left:30%; margin-bottom: 20px" >
+		</form>
+		
+		</html>
