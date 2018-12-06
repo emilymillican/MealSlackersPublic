@@ -84,18 +84,19 @@ CREATE TABLE EventTable
  Description      text NOT NULL ,
  EventType        text NOT NULL ,
  UserID           int NOT NULL ,
+ Food             text NOT NULL
 
  PRIMARY KEY (EventID),
  FOREIGN KEY (UserID)  REFERENCES UserTable(UserID)
 );
 
-INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID)
+INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID,Food)
 VALUES (245, '2018-12-6 12:00:00', 'Norlin', 'Lobby', 'Speaker: Joe Biden', 'Come join the Arts and Sciences Department to hear Joe Biden speak!',
-    'Presentation', 123);
+    'Presentation', 123, 'Pizza');
 
 INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID)
 VALUES (246, '2018-12-10 10:30:00', 'ECCR', '104', 'Math Club Meeting', 'The CU Math Club will be having its weekly meeting, with a focus placed on Calculus 2 help', 
-    'Lecture', 124);
+    'Lecture', 124, 'Sandwhiches');
 
 CREATE TABLE FoodTable
 (
