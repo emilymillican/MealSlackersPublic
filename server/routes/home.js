@@ -7,17 +7,17 @@ var cel = require('connect-ensure-login');
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-
-    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc LIMIT 5'; //retriece all events today and into the future
+    //retrieve all events from now into the future in order
+    //Retrieve current user interests
+    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = 133;'
     var user = request.user
-    db.any(query)
-      .then(function(rows) {
-          //console.log(rows);
-          //render home/index.ejs with events
+    db.multi(query, user.userid)
+      .then(function(data) {
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
-              eventData: rows,
-              userData: user
+              eventData: data[0],
+              userData: user,
+              interests: data[1]
           })
     })
     .catch(function(err) {
@@ -26,7 +26,8 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
         response.render('home/index', {
             title: 'Boulder Meal Slackerz Error',
             eventData: '',
-            userData: user
+            userData: user,
+            interests: []
          })
      })
 });
