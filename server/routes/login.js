@@ -77,6 +77,12 @@ app.post('/register', function (request, response) {
          db.none('INSERT INTO UserTable(UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
                 [item.userid, item.email, item.graduation, item.photourl, item.displayname, item.description, item.verified, item.password, item.role, item.major, item.hometown])
             .then(function (result) {
+                  //Now to insert Interests
+                  let Interests = request.body.Interests;
+                  Interests.forEach(function(id) {
+                     db.none('INSERT INTO InterestTable(UserID, InterestID) VALUES($1, $2)',[item.userid, id]).catch(function (err) {console.log(err)})
+                  })
+                  //Perform tasks for redirecting after successfully creating page
                   request.flash('success', 'Data added successfully!');
                   // render views/store/add.ejs
                   response.render('/',{
