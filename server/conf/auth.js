@@ -7,7 +7,6 @@ var db = require('../db');
 passport.use(new Strategy(
     function(username, password, cb) {
       db.users.findByUsername(username, function(err, user) {
-        console.log(user);
         if (err) { return cb(err); }
         if (!user) { return cb(null, false); }
         if (user.password != password) { return cb(null, false); }
