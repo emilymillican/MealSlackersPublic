@@ -21,6 +21,11 @@ app.get('/registration', function (request, response) {
    // render the views/registration.ejs template
    response.render('login/registration', {
       title: 'Register',
+      Name: '',
+      Email: '',
+      Password1: '',
+      Password2: '',
+      Major: '',
       Description: "Hi! I'm at CU Boulder!",
       Month: "Spring",
       Year: "2018",
