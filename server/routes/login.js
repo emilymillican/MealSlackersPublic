@@ -125,5 +125,11 @@ app.post('/recover', function(request, response) {
 });
 
 
+app.get('/logout', function(request, response) {
+   request.logout();
+   response.redirect('/');
+})
+
+
 
 module.exports = app;

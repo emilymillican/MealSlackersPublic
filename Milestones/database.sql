@@ -41,10 +41,7 @@ CREATE TABLE InterestTransTable
 );
 
 INSERT INTO InterestTransTable (InterestID, Interest)
-VALUES (20, 'Computer Science');
-
-INSERT INTO InterestTransTable (InterestID, Interest)
-VALUES (21, 'Physics');
+VALUES (1, 'CS'),(2,'Engineering'),(3,'Phsyics'),(4,'Maths'),(5,'Arts and Sciences'),(6,'Business'),(7,'Music/Theater/Dance');
 
 CREATE TABLE FoodTransTable
 (
