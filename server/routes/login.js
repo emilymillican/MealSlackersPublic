@@ -38,9 +38,9 @@ app.post('/register', function (request, response) {
    //Check which values need to be included/ match requirements
    request.assert('Name', 'Name is required').notEmpty();
    request.assert('email', 'Email is required').notEmpty();
-   request.assert(request.body.email, 'Not a valid email address').isEmail();
+   // request.assert(request.body.email, 'Not a valid email address').isEmail();
    request.assert('Password1', 'password is required').notEmpty();
-   request.assert(request.body.password1, request.body.password2, "Passwords don't match").equals();
+   // request.assert(request.body.password1, request.body.password2, "Passwords don't match").equals();
    request.assert('Major', 'major is required').notEmpty();
    request.assert('Profilephoto', 'Ensure you have a profile picture url').isURL();
    request.assert('Hometown', 'Hometown is required').notEmpty();
