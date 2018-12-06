@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var passport = require('passport');
 var db = require('../database');
+var decode = require('decode-html');
+var encode = require('encode-html');
 
 app.get('/', function (request, response) {
    // render the views/loginPage.ejs template file
@@ -48,14 +50,13 @@ app.post('/register', function (request, response) {
 	   request.assert('Password1', 'password is required').notEmpty();
 	   request.assert('Password2', "Passwords don't match").notEmpty();
 	   request.assert('Major', 'major is required').notEmpty();
-	   request.assert('Profilephoto', 'Ensure you have a profile picture url').isURL();
+	   //request.assert('Profilephoto', 'Ensure you have a profile picture url').isURL();
 	   request.assert('Hometown', 'Hometown is required').notEmpty();
 	   request.assert('role','Role is required').notEmpty();
 	   request.assert('Month', 'Month is required').notEmpty();
 	   request.assert('Year', 'year is required').notEmpty();
 	   request.assert('Description', 'Description is required').notEmpty();
 	   
-
 
 	   var errors = request.validationErrors();
 	   console.log(errors);
@@ -67,7 +68,7 @@ app.post('/register', function (request, response) {
 	   // }
 	      db.one('select max(userid) from usertable;').then(data => {
 		 //Put the inputs into an object and 'clean' them
-		 
+		 request.body.Profilephoto = encode(request.body.Profilephoto);
 		 var item = {
 		    userid: Number(data.max) + 1,   //Check db for current highest, +1
 		    email: request.sanitize('email').escape().trim(),
@@ -89,10 +90,14 @@ app.post('/register', function (request, response) {
 			  //Now to insert Interests
 			  if (request.body.Interests) {
 			    let Interests = request.body.Interests;
-			    Interests.forEach(function(id) {
+                            if (Interests.len >1) 
+			      Interests.forEach(function(id) {
 			       db.none('INSERT INTO InterestTable(UserID, InterestID) VALUES($1, $2)',[item.userid, id]).catch(function (err) {console.log(err)})
 			    })
-			  }
+                            } else {
+			       db.none('INSERT INTO InterestTable(UserID, InterestID) VALUES($1, $2)',[item.userid, Interests]).catch(function (err) {console.log(err)})
+                            }
+			  
 			  //Perform tasks for redirecting after successfully creating page
 			  request.flash('success', 'Data added successfully!');
 			  // render views/store/add.ejs

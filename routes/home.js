@@ -2,6 +2,8 @@
 
 var express = require('express');
 var db = require('../database');
+var decode = require('decode-html');
+var encode = require('encode-html');
 var app = express();
 var cel = require('connect-ensure-login');
 var interestquery = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;';
@@ -12,6 +14,8 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     //Retrieve current user interests
     var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc;' + interestquery;
     var user = request.user;
+    user.userphotourl = decode(user.userphotourl);
+    console.log(decode(user.userphotourl));
     db.multi(query, user.userid)
       .then(function(data) {
           console.log(data[0])
@@ -101,8 +105,15 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
                         })
                     })
              }).catch(function (err) {
-                request.flash('error', err);
-                response.redirect('/');
+                request.flash('error', 'Database Error: ' + err);
+                db.multi(eventquery + interestquery,user.userid).then(function(data) {
+                    response.render('home/index',{
+                       title: "Boulder Meal Slackerz",
+                       eventData: data[0],
+                       userData: user,
+                       interests: data[1]
+                     })
+                 })
        })
       })
     }
