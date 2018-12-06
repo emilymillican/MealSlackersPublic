@@ -8,7 +8,7 @@ var cel = require('connect-ensure-login');
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 
-    var query = 'SELECT * FROM EventTable'; //retriece all events today and into the future
+    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc LIMIT 5'; //retriece all events today and into the future
     var user = request.user
     db.any(query)
       .then(function(rows) {
