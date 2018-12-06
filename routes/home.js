@@ -13,6 +13,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     var user = request.user
     db.multi(query, user.userid)
       .then(function(data) {
+          console.log(data[0])
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
               eventData: data[0],
@@ -22,6 +23,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     })
     .catch(function(err) {
         // display error message in case of error
+        console.log(err)
         request.flash('error', err);
         response.render('home/index', {
             title: 'Boulder Meal Slackerz Error',
@@ -62,6 +64,7 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
     request.assert('eventname', 'Event Name is required').notEmpty();
     request.assert('eventdescription', 'A description is required').notEmpty();
     request.assert('eventdate', 'Date is required').notEmpty();
+    request.assert('Food', 'Food selection is required').notEmpty();
     request.assert('eventbuilding', 'Building is required').notEmpty();
     request.assert('eventroom', 'Room is required').notEmpty();
  
@@ -74,6 +77,7 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
           var item = {
              eventid: Number(data.max) + 1,   //Check db for current highest, +1
              eventdate: request.sanitize('eventdate').escape().trim(), //Might need format edits
+             eventfood: request.sanitize('Food').escape().trim(),
              eventbuilding: request.sanitize('eventbuilding').escape().trim(),
              eventroom: request.sanitize('eventroom').escape().trim(),
              eventname: request.sanitize('eventname').escape().trim(),
@@ -82,8 +86,8 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
              userid: request.user.userid
           };
           // Input items into database
-          db.none('INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',
-                 [item.eventid, item.eventdate, item.eventbuilding, item.eventroom, item.eventname, item.eventdescription, item.eventtype, item.userid])
+          db.none('INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID, Food) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+                 [item.eventid, item.eventdate, item.eventbuilding, item.eventroom, item.eventname, item.eventdescription, item.eventtype, item.userid, item.eventfood])
              .then(function (result) {
                    request.flash('success', 'Data added successfully!');
                    // render createEvent page with successful event creation
