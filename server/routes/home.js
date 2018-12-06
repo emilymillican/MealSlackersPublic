@@ -7,13 +7,11 @@ var cel = require('connect-ensure-login');
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-    var query = 'SELECT * FROM EventTable; SELECT * FROM InterestTable where userid = $1'
-    //var query = 'SELECT * FROM EventTable'; //retriece all events today and into the future
+    
+    var query = 'SELECT * FROM EventTable; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = 133;'
     var user = request.user
     db.multi(query, user.userid)
       .then(function(data) {
-          //console.log(rows);
-          //render home/index.ejs with events
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
               eventData: data[0],
@@ -27,7 +25,8 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
         response.render('home/index', {
             title: 'Boulder Meal Slackerz Error',
             eventData: '',
-            userData: user
+            userData: user,
+            interests: []
          })
      })
 });
