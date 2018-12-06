@@ -22,7 +22,7 @@ app.get('/registration', function (request, response) {
    response.render('login/registration', {
       title: 'Register',
       Name: '',
-      Email: '',
+      email: '',
       Password1: '',
       Password2: '',
       Major: '',
@@ -50,7 +50,7 @@ app.post('/register', function (request, response) {
    request.assert('Description', 'Description is required').notEmpty();
 
    var errors = request.validationErrors();
-
+   console.log(errors);
    //Additional tests
    if(!errors){
    // else if (request.body.email[-13] != '@colorado.edu') {
