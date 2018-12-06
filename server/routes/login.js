@@ -5,7 +5,10 @@ var db = require('../database');
 
 app.get('/', function (request, response) {
    // render the views/loginPage.ejs template file
-   response.render('login/loginPage', {title: 'Boulder Meal Slackerz'})
+   response.render('login/loginPage', {
+      title: 'Boulder Meal Slackerz',
+      username: ''
+   })
 });
 
 app.post('/login', 
@@ -19,7 +22,7 @@ app.get('/registration', function (request, response) {
    response.render('login/registration', {
       title: 'Register',
       Name: '',
-      Email: '',
+      email: '',
       Password1: '',
       Password2: '',
       Major: '',
@@ -47,7 +50,7 @@ app.post('/register', function (request, response) {
    request.assert('Description', 'Description is required').notEmpty();
 
    var errors = request.validationErrors();
-
+   console.log(errors);
    //Additional tests
    if(!errors){
    // else if (request.body.email[-13] != '@colorado.edu') {
@@ -74,11 +77,18 @@ app.post('/register', function (request, response) {
          db.none('INSERT INTO UserTable(UserID, UserEmail, ExpectedGraduation, UserPhotoURL, Displayname, Description, Verified, Password, Role, Major, Hometown) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
                 [item.userid, item.email, item.graduation, item.photourl, item.displayname, item.description, item.verified, item.password, item.role, item.major, item.hometown])
             .then(function (result) {
+                  //Now to insert Interests
+                  let Interests = request.body.Interests;
+                  Interests.forEach(function(id) {
+                     db.none('INSERT INTO InterestTable(UserID, InterestID) VALUES($1, $2)',[item.userid, id]).catch(function (err) {console.log(err)})
+                  })
+                  //Perform tasks for redirecting after successfully creating page
                   request.flash('success', 'Data added successfully!');
                   // render views/store/add.ejs
                   response.render('/',{
                      title: 'User Created',
-                     )
+                     username: ''
+                     })
             }).catch(function (err) {
                request.flash('error', err);
          })
@@ -128,6 +138,12 @@ app.post('/recover', function(request, response) {
       response.render('/recover', {title: 'Recover: Error'})
    }
 });
+
+
+app.get('/logout', function(request, response) {
+   request.logout();
+   response.redirect('/');
+})
 
 
 
