@@ -7,17 +7,18 @@ var cel = require('connect-ensure-login');
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-
-    var query = 'SELECT * FROM EventTable'; //retriece all events today and into the future
+    var query = 'SELECT * FROM EventTable; SELECT * FROM InterestTable where userid = $1'
+    //var query = 'SELECT * FROM EventTable'; //retriece all events today and into the future
     var user = request.user
-    db.any(query)
-      .then(function(rows) {
+    db.multi(query, user.userid)
+      .then(function(data) {
           //console.log(rows);
           //render home/index.ejs with events
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
-              eventData: rows,
-              userData: user
+              eventData: data[0],
+              userData: user,
+              interests: data[1]
           })
     })
     .catch(function(err) {
