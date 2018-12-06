@@ -7,17 +7,17 @@ var cel = require('connect-ensure-login');
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
-
-    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc LIMIT 5'; //retriece all events today and into the future
+    //retrieve all events from now into the future in order
+    //Retrieve current user interests
+    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
     var user = request.user
-    db.any(query)
-      .then(function(rows) {
-          //console.log(rows);
-          //render home/index.ejs with events
+    db.multi(query, user.userid)
+      .then(function(data) {
           response.render('home/index', {
               title: 'Boulder Meal Slackerz Homepage',
-              eventData: rows,
-              userData: user
+              eventData: data[0],
+              userData: user,
+              interests: data[1]
           })
     })
     .catch(function(err) {
@@ -26,7 +26,8 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
         response.render('home/index', {
             title: 'Boulder Meal Slackerz Error',
             eventData: '',
-            userData: user
+            userData: user,
+            interests: []
          })
      })
 });
@@ -34,10 +35,21 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     //console.log(request.user)
     var user = request.user
-    // render home/createEvent.ejs
-    response.render('home/createEvent', {
-        title: 'Create Event',
-        userData: user
+    query = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
+    db.any(query,user.userid).then(function(data) {
+        // render home/createEvent.ejs
+        response.render('home/createEvent', {
+            title: 'Create Event',
+            userData: user,
+            interests: data
+        })
+    }).catch(function (err) {
+        console.log('here');
+        request.flash('error', err);
+        response.render('/', {
+          title: 'Database Error',
+          userData: request.user
+  })
     })
 });
 
@@ -75,16 +87,10 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
              .then(function (result) {
                    request.flash('success', 'Data added successfully!');
                    // render createEvent page with successful event creation
-                   response.render('home/createEvent',{
-                     title: 'Event Created',
-                     userData: request.user
-                   })
+                   response.redirect('createEvent')
              }).catch(function (err) {
                 request.flash('error', err);
-                response.render('home/createEvent', {
-                  title: 'Database Error',
-                  userData: request.user
-          })
+                response.redirect('/');
        })
       })
     }
@@ -99,13 +105,57 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
  });
 
 app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
-    var user = request.user
+    var user = request.user;
     // render home/setting.ejs
-    response.render('home/setting', {
-        title: 'Profile Settings',
-        userData: user
+    var query = 'select interestid from interesttable where userid = $1; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;';
+    db.multi(query,user.userid).then( function(data) {
+        response.render('home/setting', {
+            title: 'Profile Settings',
+            userData: user,
+            interests: data[1],
+            userinterest: data[0]
+        })
+    }).catch(function (err) {
+        console.log(err);
+        response.flash('error', err);
     })
 });
+
+app.post('/editprofile', cel.ensureLoggedIn('/'), function (request, response) {
+
+    request.assert('Major','Major is required').notEmpty();
+    request.assert('Month','Month is required').notEmpty();
+    request.assert('Year','Year is required').notEmpty();
+    request.assert('message','Description is required').notEmpty();
+
+    var errors = request.validationErrors();
+    //Additional tests
+    if(!errors){
+        var item = {
+            major: request.sanitize('Major').escape().trim(),
+            graduation: request.sanitize('Month').escape().trim() + ' ' + request.sanitize('Year').escape().trim(),
+            description: request.sanitize('message').escape().trim()
+         };
+        var query = 'UPDATE UserTable Set Major = $1, ExpectedGraduation = $2, Description = $3 WHERE UserID = $4';
+        db.none(query,[item.major,item.graduation,item.description,request.user.userid])
+        .then(function() {
+            request.user.major = item.major;
+            request.user.expectedgraduation = item.graduation;
+            request.user.description = item.description;
+            request.flash('success', 'Profile Updated successfully');
+            // render createEvent page with successful event creation
+            response.redirect('/');
+        }).catch(function(err) {
+            console.log(err);
+            request.flash('error', err);
+            response.render('home/setting', {
+              title: 'Database Error',
+              userData: request.user
+      })
+        })
+    }
+});
+
 // Route to insert values. Notice that request method is POST here
 app.post('/add', cel.ensureLoggedIn('/'), function (request, response) {
     // Validate user input - ensure non emptiness
