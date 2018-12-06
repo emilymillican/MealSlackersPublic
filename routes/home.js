@@ -4,13 +4,14 @@ var express = require('express');
 var db = require('../database');
 var app = express();
 var cel = require('connect-ensure-login');
+var interestquery = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;';
 
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     //retrieve all events from now into the future in order
     //Retrieve current user interests
-    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
-    var user = request.user
+    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc;' + interestquery;
+    var user = request.user;
     db.multi(query, user.userid)
       .then(function(data) {
           console.log(data[0])
@@ -37,8 +38,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     //console.log(request.user)
     var user = request.user
-    query = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
-    db.any(query,user.userid).then(function(data) {
+    db.any(interestquery,user.userid).then(function(data) {
         // render home/createEvent.ejs
         response.render('home/createEvent', {
             title: 'Create Event',
