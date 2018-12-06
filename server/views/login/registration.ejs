@@ -26,8 +26,8 @@
 		<form action="/register" method="post">	
 			<h4 style="margin-left:30%">Name</h4>
 			<input type="text" name="Name" placeholder="Enter name" value = "<%= Name %>" size="75" style="margin-left:30%; min-height:40px">
-                        <% if messages.error.Name { %>
-                          <p style="color:red"><%- messages.error.Name %></p>
+                        <% if (messages.error) { %>
+                          <p style="color:red"><%- messages.error %></p>
                         <% } %>
 			<br>
 			<h4 style="margin-left:30%">Email Address</h4>
