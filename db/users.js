@@ -26,9 +26,25 @@ exports.findById = function(id, cb) {
   })
 }
 
-exports.findByUsername = function(username, cb) {
+/* exports.findByUsername = function(username, cb) {
   var query = 'SELECT * FROM UserTable where displayname = $1;';
   db.one(query, username)
+  .then(function (rows) {
+    // console.log(rows);
+    var records = rows;
+    process.nextTick(function() {
+      return cb(null, records);
+    });
+  })
+  .catch(function (err) {
+    console.log(err);
+    return cb(null, null);
+  })
+}; */
+
+exports.findByEmail = function(email, cb) {
+  var query = 'SELECT * FROM UserTable where UserEmail = $1;';
+  db.one(query, email)
   .then(function (rows) {
     // console.log(rows);
     var records = rows;
