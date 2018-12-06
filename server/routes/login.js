@@ -5,7 +5,10 @@ var db = require('../database');
 
 app.get('/', function (request, response) {
    // render the views/loginPage.ejs template file
-   response.render('login/loginPage', {title: 'Boulder Meal Slackerz'})
+   response.render('login/loginPage', {
+      title: 'Boulder Meal Slackerz',
+      username: ''
+   })
 });
 
 app.post('/login', 
@@ -73,7 +76,8 @@ app.post('/register', function (request, response) {
                   // render views/store/add.ejs
                   response.render('/',{
                      title: 'User Created',
-                     )
+                     username: ''
+                     })
             }).catch(function (err) {
                request.flash('error', err);
          })
