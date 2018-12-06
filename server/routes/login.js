@@ -16,7 +16,13 @@ app.post('/login',
 
 app.get('/registration', function (request, response) {
    // render the views/registration.ejs template
-   response.render('login/registration', {title: 'Register'})
+   response.render('login/registration', {
+      title: 'Register',
+      Description: "Hi! I'm at CU Boulder!",
+      Month: "Spring",
+      Year: "2018",
+      Profilephoto: "https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"
+   })
 });
 
 //TODO: Return error messages for the password check and e-mail checks and go back to page without losing info

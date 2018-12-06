@@ -25,18 +25,18 @@
 		<br>
 		<form action="/register" method="post">	
 			<h4 style="margin-left:30%">Name</h4>
-			<input type="text" name="Name" value="" placeholder="Enter name" size="75" style="margin-left:30%; min-height:40px">
+			<input type="text" name="Name" placeholder="Enter name" value = "<%= Name %>" size="75" style="margin-left:30%; min-height:40px">
 			<br>
 			<h4 style="margin-left:30%">Email Address</h4>
-			<input type="email" name="email" value="" placeholder="Enter email address" size="75" style="margin-left:30%; min-height:40px">
+			<input type="email" name="email" placeholder="Enter email address" value = "<%= email %>" size="75" style="margin-left:30%; min-height:40px">
 			<h4 style="margin-left:30%">Password</h4>
-			<input type="Password" name="Password1" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
+			<input type="Password" name="Password1" placeholder="Password" value = "<%= Password1 %>" size="75" style="margin-left:30%; min-height:40px">
 			<br>
 			<h4 style="margin-left:30%">Confirm Password</h4>
-			<input type="Password" name="Password2" value="" placeholder="Password" size="75" style="margin-left:30%; min-height:40px">
+			<input type="Password" name="Password2" placeholder="Password" value = "<%= Password2 %>" size="75" style="margin-left:30%; min-height:40px">
 			<br>
 			<h4 style="margin-left:30%">Major</h4>
-			<input type="text" name="Major" value="" placeholder="Major" size="75" style="margin-left:30%; min-height:40px">
+			<input type="text" name="Major" placeholder="Major" value = "<%= Major %>" size="75" style="margin-left:30%; min-height:40px">
 			<br>
 			<h4 style="margin-left:30%">Class</h4>
 			<div id="table">
@@ -75,7 +75,7 @@
 			</div>
 			<br>
 			<h4 style="margin-left:30%">Profile Photo URL</h4>
-			<input type="text" name="Profilephoto" value="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png" placeholder="Profile Photo" size="75" style="margin-left:30%; min-height:40px">
+			<input type="text" name="Profilephoto" value="<%= Profilephoto %>" placeholder="Profile Photo URL" size="75" style="margin-left:30%; min-height:40px">
 			<br>
 			<br>
 			<input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px; margin-left:30%; margin-bottom: 20px" >
