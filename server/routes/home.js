@@ -35,10 +35,21 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     //console.log(request.user)
     var user = request.user
-    // render home/createEvent.ejs
-    response.render('home/createEvent', {
-        title: 'Create Event',
-        userData: user
+    query = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
+    db.any(query,user.userid).then(function(data) {
+        // render home/createEvent.ejs
+        response.render('home/createEvent', {
+            title: 'Create Event',
+            userData: user,
+            interests: data
+        })
+    }).catch(function (err) {
+        console.log('here');
+        request.flash('error', err);
+        response.render('/', {
+          title: 'Database Error',
+          userData: request.user
+  })
     })
 });
 
@@ -76,16 +87,10 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
              .then(function (result) {
                    request.flash('success', 'Data added successfully!');
                    // render createEvent page with successful event creation
-                   response.render('home/createEvent',{
-                     title: 'Event Created',
-                     userData: request.user
-                   })
+                   response.redirect('createEvent')
              }).catch(function (err) {
                 request.flash('error', err);
-                response.render('home/createEvent', {
-                  title: 'Database Error',
-                  userData: request.user
-          })
+                response.redirect('/');
        })
       })
     }
