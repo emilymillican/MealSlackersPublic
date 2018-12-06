@@ -38,9 +38,9 @@ app.post('/register', function (request, response) {
    //Check which values need to be included/ match requirements
    request.assert('Name', 'Name is required').notEmpty();
    request.assert('email', 'Email is required').notEmpty();
-   request.assert(request.body.email, 'Not a valid email address').isEmail();
+   request.assert(body.email, 'Not a valid email address').isEmail();
    request.assert('Password1', 'password is required').notEmpty();
-   request.assert(request.body.password1, request.body.password2, "Passwords don't match").equals();
+   request.assert(body.password1, body.password2, "Passwords don't match").equals();
    request.assert('Major', 'major is required').notEmpty();
    request.assert('Profilephoto', 'Ensure you have a profile picture url').isURL();
    request.assert('Hometown', 'Hometown is required').notEmpty();
@@ -95,7 +95,22 @@ app.post('/register', function (request, response) {
       }).catch(function (err) {
          request.flash('error',err);
       })
-   }
+   }  else {
+      var error_msg = errors.reduce((accumulator, current_errors)=> accumulator + '<br/>' + current_error.msg, '');
+      request.flash('error', error_msg);
+      response.render('home/registration', {
+          title: 'Registration Error',
+          Name: request.body.Name,
+          email: request.body.email,
+          Password1: '',
+          Password2: '',
+          Major: request.body.Major,
+          Month: request.body.Month,
+          Year: request.body.Year,
+          role: request.body.role,
+          Hometown: request.body.Hometown,
+          Description: request.body.Description,
+          Profilephoto: request.body.Profilephoto 
 });
 
 app.get('/success', function (request, response) {
