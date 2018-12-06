@@ -24,10 +24,11 @@ app.post('/register', function (request, response) {
    //Check which values need to be included/ match requirements
    request.assert('Name', 'Name is required').notEmpty();
    request.assert('email', 'Email is required').notEmpty();
+   request.assert(request.body.email, 'Not a valid email address').isEmail();
    request.assert('Password1', 'password is required').notEmpty();
-   request.assert('Password2', 'password is required').notEmpty();
+   request.assert(request.body.password1, request.body.password2, "Passwords don't match").equals();
    request.assert('Major', 'major is required').notEmpty();
-   request.assert('Profilephoto', 'Ensure you have a profile picture url').notEmpty();
+   request.assert('Profilephoto', 'Ensure you have a profile picture url').isURL();
    request.assert('Hometown', 'Hometown is required').notEmpty();
    request.assert('role','Role is required').notEmpty();
    request.assert('Month', 'Month is required').notEmpty();
@@ -38,10 +39,7 @@ app.post('/register', function (request, response) {
 
    //Additional tests
    if(!errors){
-   if (request.body.password1 != request.body.password2) {
-      //Need to return error function
-      response.redirect('/registration');
-   } // else if (request.body.email[-13] != '@colorado.edu') {
+   // else if (request.body.email[-13] != '@colorado.edu') {
    //    //Still Uncertain...
    //    response.redirect('/registration');
    // }
@@ -67,7 +65,9 @@ app.post('/register', function (request, response) {
             .then(function (result) {
                   request.flash('success', 'Data added successfully!');
                   // render views/store/add.ejs
-                  response.redirect('/')
+                  response.render('/',{
+                     title: 'User Created',
+                     )
             }).catch(function (err) {
                request.flash('error', err);
          })
