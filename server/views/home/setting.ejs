@@ -73,15 +73,18 @@
             <div class="w3-container w3-padding">
               
               <p>    
-                  <h3>Name:</h3>
+                  <h3>Name:</h3> 
+                  <p> <%= userData.displayname %></p>
              </p>
              <br>
              <p>
-             	<h3>Hometown:</h3>
+               <h3>Hometown:</h3>
+               <p> <%= userData.hometown %> </p>
              </p>
              <br>
              <p>    
-                   <h3>Email Address:</h3>
+                  <h3>Email Address:</h3>
+                  <p><%= userData.useremail %> </p>
              </p>
              <br>
              <h3>Major:</h3>
@@ -89,36 +92,35 @@
 
       </script>
              <div id="table">
-			<input type="text" name ="Major" placeholder="Enter Major" size="75" style="min-height:40px">
-		</div>
+			<input type="text" name ="Major" value="<%= userData.major %>" size="75" style="min-height:40px">
+    </div>
+    <!-- <% if (userinterest.includes({interestid: 1})) { %> blah <% } %>
 		<br>
              <h3>Interests:</h3>
              <div id="table">
-			<input type="checkbox" name ="Interests" value="CS">CS
-			<input type="checkbox" name ="Interests" value="Engineering">Engineering
-			<input type="checkbox" name ="Interests" value="Physics">Physics
-			<input type="checkbox" name ="Interests" value="Math">Math
-			<input type="checkbox" name ="Interests" value="Arts and Science">Arts and Science
-			<input type="checkbox" name ="Interests" value="Business">Business
-			<input type="checkbox" name ="Interests" value="Music/Theater/Dance">Music/Theater/Dance
-		</div>
-		<br>
-		
-		
+			<input type="checkbox" name ="Interests" value="1" <% if (userinterest.includes({interestid: 1})) { %> checked='checked' <% } %>>CS
+			<input type="checkbox" name ="Interests" value="2">Engineering
+			<input type="checkbox" name ="Interests" value="3">Physics
+			<input type="checkbox" name ="Interests" value="4">Math
+			<input type="checkbox" name ="Interests" value="5">Arts and Science
+			<input type="checkbox" name ="Interests" value="6">Business
+			<input type="checkbox" name ="Interests" value="7">Music/Theater/Dance
+		</div> -->
+    <br>
 			
 			<h3>Class</h3>
 			<div id="table">
-          <input type="radio" name="Month" value="Spring">Spring
-          <input type="radio" name="Month" value="Fall">Fall
-          <input type="radio" name="Month" value="Summer">Summer
-          <input type="number" name="Year" value="2018" size="20"  style="left:0; height:30px; width:60px; margin-top:5px;">
+          <input type="radio" name="Month" value="Spring" <% if (userData.expectedgraduation[1] == 'p') { %> checked="checked" <% } %>>Spring
+          <input type="radio" name="Month" value="Fall" <% if (userData.expectedgraduation[1] == 'a') { %> checked="checked" <% } %>>Fall
+          <input type="radio" name="Month" value="Summer" <% if (userData.expectedgraduation[1] == 'u') { %> checked="checked" <% } %>>Summer
+          <input type="number" name="Year" value="<%= Number(userData.expectedgraduation.substr(-4)) %>" size="20"  style="left:0; height:30px; width:60px; margin-top:5px;">
 		</div>
 			
 			<br>
 		<h3>Additional Information</h3>
 			<div id="table">
 			<p>About Me</p>
-			<textarea name="message" rows="4" cols="79"></textarea>
+			<textarea name="message" rows="4" cols="79"><%= userData.description %></textarea>
 		</div>
 			<br>
               <input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px;" >

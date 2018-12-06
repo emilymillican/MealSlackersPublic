@@ -9,7 +9,7 @@ var cel = require('connect-ensure-login');
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     //retrieve all events from now into the future in order
     //Retrieve current user interests
-    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = 133;'
+    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
     var user = request.user
     db.multi(query, user.userid)
       .then(function(data) {
@@ -100,11 +100,19 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
  });
 
 app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
-    var user = request.user
+    var user = request.user;
     // render home/setting.ejs
-    response.render('home/setting', {
-        title: 'Profile Settings',
-        userData: user
+    var query = 'select interestid from interesttable where userid = $1; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;';
+    db.multi(query,user.userid).then( function(data) {
+        response.render('home/setting', {
+            title: 'Profile Settings',
+            userData: user,
+            interests: data[1],
+            userinterest: data[0]
+        })
+    }).catch(function (err) {
+        console.log(err);
+        response.flash('error', err);
     })
 });
 // Route to insert values. Notice that request method is POST here
