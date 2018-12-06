@@ -115,6 +115,42 @@ app.get('/setting', cel.ensureLoggedIn('/'), function (request, response) {
         response.flash('error', err);
     })
 });
+
+app.post('/editprofile', cel.ensureLoggedIn('/'), function (request, response) {
+
+    request.assert('Major','Major is required').notEmpty();
+    request.assert('Month','Month is required').notEmpty();
+    request.assert('Year','Year is required').notEmpty();
+    request.assert('message','Description is required').notEmpty();
+
+    var errors = request.validationErrors();
+    //Additional tests
+    if(!errors){
+        var item = {
+            major: request.sanitize('Major').escape().trim(),
+            graduation: request.sanitize('Month').escape().trim() + ' ' + request.sanitize('Year').escape().trim(),
+            description: request.sanitize('message').escape().trim()
+         };
+        var query = 'UPDATE UserTable Set Major = $1, ExpectedGraduation = $2, Description = $3 WHERE UserID = $4';
+        db.none(query,[item.major,item.graduation,item.description,request.user.userid])
+        .then(function() {
+            request.user.major = item.major;
+            request.user.expectedgraduation = item.graduation;
+            request.user.description = item.description;
+            request.flash('success', 'Profile Updated successfully');
+            // render createEvent page with successful event creation
+            response.redirect('/');
+        }).catch(function(err) {
+            console.log(err);
+            request.flash('error', err);
+            response.render('home/setting', {
+              title: 'Database Error',
+              userData: request.user
+      })
+        })
+    }
+});
+
 // Route to insert values. Notice that request method is POST here
 app.post('/add', cel.ensureLoggedIn('/'), function (request, response) {
     // Validate user input - ensure non emptiness

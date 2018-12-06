@@ -88,12 +88,10 @@
              </p>
              <br>
              <h3>Major:</h3>
-      <script>
-
-      </script>
+             <form action='/home/editprofile' method="POST">
              <div id="table">
-			<input type="text" name ="Major" value="<%= userData.major %>" size="75" style="min-height:40px">
-    </div>
+                <input type="text" name ="Major" value="<%= userData.major %>" size="75" style="min-height:40px">
+              </div>
     <!-- <% if (userinterest.includes({interestid: 1})) { %> blah <% } %>
 		<br>
              <h3>Interests:</h3>
@@ -124,6 +122,7 @@
 		</div>
 			<br>
               <input type="Submit" value="Submit" style="background-color:#57707d; color:white; width: 150px; height: 40px;" >
+            </form>
             </div>
           </div>
         </div>
