@@ -39,6 +39,7 @@ app.get('/registration', function (request, response) {
 app.post('/register', function (request, response) {
    //Check which values need to be included/ match requirementsi
    var unique = true;
+   request.body.Profilephoto = "https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png";
    if (request.body.Password1 != request.body.Password2){
        request.body.Password2 = null;
    }
