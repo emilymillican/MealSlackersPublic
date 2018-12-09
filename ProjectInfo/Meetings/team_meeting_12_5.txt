@@ -1,0 +1,3 @@
+team meeting 12/5/2018
+
+the team met to make sure the app was working. and worked with integrating backend to front end 
