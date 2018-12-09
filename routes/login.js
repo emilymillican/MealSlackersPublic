@@ -42,6 +42,7 @@ app.post('/register', function (request, response) {
    if (request.body.Password1 != request.body.Password2){
        request.body.Password2 = null;
    }
+   request.body.Profilephoto = "https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png";
    db.none('SELECT UserEmail FROM UserTable WHERE UserEmail = $1',[request.body.email])
        .then(function() {
 	   request.assert('Name', 'Name is required').notEmpty();
