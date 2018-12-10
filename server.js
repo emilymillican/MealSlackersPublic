@@ -51,6 +51,6 @@ app.use('/', login);
 app.use('/home', home);
 
 var port = '4000';
-app.listen(port, function () {
+module.exports = app.listen(port, function () {
     console.log('Server running on http://localhost:' + port)
 });
