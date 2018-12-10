@@ -4,7 +4,6 @@ language:
 before install:
         
 before_script:
-        - npm install -g gulp-cli
         - psql -c 'create database bsz;' -U postgres
         - psql -d bsz -U postgres -a -f ./db/database.sql
 script:
