@@ -15,10 +15,12 @@ before(function(done){
   authenticatedUser
     .post('/login')
     .send(userCredentials)
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/)
     .end(function(err, response){
       expect(response.statusCode).to.equal(200);
       expect('Location', '/home');
-      done();
+      done(authenticatedUser);
     });
 });
 
