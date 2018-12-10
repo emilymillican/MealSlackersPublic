@@ -1,0 +1,15 @@
+language: 
+        node_js
+
+before install:
+        
+before_script:
+        - npm install -g gulp-cli
+        - psql -c 'create database bsz;' -U postgres
+script:
+        gulp
+
+services:
+        -postgresql
+cache:
+        npm
