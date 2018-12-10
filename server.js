@@ -50,7 +50,7 @@ var home = require('./routes/home');
 app.use('/', login);
 app.use('/home', home);
 
-var port = 4000;
+var port = process.env.PORT;
 app.listen(port, function () {
     console.log('Server running on http://localhost:' + port)
 });

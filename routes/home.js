@@ -2,15 +2,20 @@
 
 var express = require('express');
 var db = require('../database');
+var decode = require('decode-html');
+var encode = require('encode-html');
 var app = express();
 var cel = require('connect-ensure-login');
-
+var interestquery = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;';
+var eventquery = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc;';
 
 app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
     //retrieve all events from now into the future in order
     //Retrieve current user interests
-    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc; select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
-    var user = request.user
+    var query = 'SELECT * FROM EventTable WHERE(date >= NOW()) ORDER BY date asc;' + interestquery;
+    var user = request.user;
+    user.userphotourl = decode(user.userphotourl);
+    console.log(decode(user.userphotourl));
     db.multi(query, user.userid)
       .then(function(data) {
           console.log(data[0])
@@ -37,8 +42,7 @@ app.get('/', cel.ensureLoggedIn('/'), function (request, response) {
 app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     //console.log(request.user)
     var user = request.user
-    query = 'select interesttable.userid, interesttranstable.interest from interesttable inner join interesttranstable on interesttable.interestid=interesttranstable.interestid where userid = $1;'
-    db.any(query,user.userid).then(function(data) {
+    db.any(interestquery,user.userid).then(function(data) {
         // render home/createEvent.ejs
         response.render('home/createEvent', {
             title: 'Create Event',
@@ -48,9 +52,10 @@ app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
     }).catch(function (err) {
         console.log('here');
         request.flash('error', err);
-        response.render('/', {
+        response.render('home/index', {
           title: 'Database Error',
-          userData: request.user
+          userData: user,
+          interests: []
   })
     })
 });
@@ -59,7 +64,7 @@ app.get('/createEvent', cel.ensureLoggedIn('/'), function (request, response) {
 //Also can't get the post requests to push through.... hm....
 app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
     //Check which values need to be included/ match requirements
-    
+    var user = request.user
     console.log(request.body.eventdate); //Trying to check format for the eventdate slot
     request.assert('eventname', 'Event Name is required').notEmpty();
     request.assert('eventdescription', 'A description is required').notEmpty();
@@ -89,12 +94,26 @@ app.post('/addEvent', cel.ensureLoggedIn('/'), function (request, response) {
           db.none('INSERT INTO EventTable(EventID, Date, Building, RoomNumber, EventDisplayName, Description, EventType, UserID, Food) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)',
                  [item.eventid, item.eventdate, item.eventbuilding, item.eventroom, item.eventname, item.eventdescription, item.eventtype, item.userid, item.eventfood])
              .then(function (result) {
-                   request.flash('success', 'Data added successfully!');
+                   request.flash('success', 'Event added successfully!');
                    // render createEvent page with successful event creation
-                   response.redirect('createEvent')
+                   db.multi(eventquery + interestquery,user.userid).then(function(data) {
+                       response.render('home/index',{
+                          title: "Boulder Meal Slackerz",
+                          eventData: data[0],
+                          userData: user,
+                          interests: data[1]
+                        })
+                    })
              }).catch(function (err) {
-                request.flash('error', err);
-                response.redirect('/');
+                request.flash('error', 'Database Error: ' + err);
+                db.multi(eventquery + interestquery,user.userid).then(function(data) {
+                    response.render('home/index',{
+                       title: "Boulder Meal Slackerz",
+                       eventData: data[0],
+                       userData: user,
+                       interests: data[1]
+                     })
+                 })
        })
       })
     }
