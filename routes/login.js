@@ -70,7 +70,7 @@ app.post('/register', function (request, response) {
 	   // }
 	      db.one('select max(userid) from usertable;').then(data => {
 		 //Put the inputs into an object and 'clean' them
-		 request.body.Profilephoto = encode(request.body.Profilephoto);
+		 request.body.Profilephoto = "coming_soon";
 		 var item = {
 		    userid: Number(data.max) + 1,   //Check db for current highest, +1
 		    email: request.sanitize('email').escape().trim(),
