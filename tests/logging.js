@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var app = require('../server');
-var request = require('superagent');
+var request = require('supertest');
 
 //let's set up the data we need to pass to the login method
 const userCredentials = {
