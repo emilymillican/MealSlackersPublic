@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var app = require('../server');
-var request = require('supertest');
+var request = require('superagent');
 
 //let's set up the data we need to pass to the login method
 const userCredentials = {
@@ -14,9 +14,7 @@ var authenticatedUser = request.agent(app);
 before(function(done){
   authenticatedUser
     .post('/login')
-    .type('form')
-    .send('username = Stian@colorado.edu')
-    .send('password = irock')
+    .send(userCredentials)
     .end(function(err, response){
       expect(response.statusCode).to.equal(200);
       expect('Location', '/home');
