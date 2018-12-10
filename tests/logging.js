@@ -14,7 +14,9 @@ var authenticatedUser = request.agent(app);
 before(function(done){
   authenticatedUser
     .post('/login')
-    .send(userCredentials)
+    .type('form')
+    .send('username = Stian@colorado.edu')
+    .send('password = irock')
     .end(function(err, response){
       expect(response.statusCode).to.equal(200);
       expect('Location', '/home');
