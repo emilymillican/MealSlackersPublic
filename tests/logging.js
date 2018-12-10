@@ -17,6 +17,7 @@ before(function(done){
     .send(userCredentials)
     .set('Accept', 'application/json')
     .expect('Content-Type', /json/)
+    .expect(200)
     .end(function(err, response){
       expect(response.statusCode).to.equal(200);
       expect('Location', '/home');
