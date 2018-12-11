@@ -17,9 +17,9 @@ before(function(done){
     .send('username=Stian%40colorado.edu&password=irock')
     .set({Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8','Content-Type':'application/x-www-form-urlencoded'})
     .expect('Content-Type', 'text/html')
-    .expect(200)
+    .expect(302)
     .end(function(err, response){
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(302);
       expect('Location', '/home');
       done(authenticatedUser);
     });
