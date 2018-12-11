@@ -27,7 +27,7 @@ before(function(done){
 
 describe('GET /home', function(done){
 //addresses 1st bullet point: if the user is logged in we should get a 200 status code
-  it('should return a 200 response if the user is logged in', function(done){
+  it.skip('should return a 200 response if the user is logged in', function(done){
     authenticatedUser.get('/home')
     .expect(200, done);
   });
