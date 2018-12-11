@@ -15,7 +15,8 @@ before(function(done){
   authenticatedUser
     .post('/login')
     .send(userCredentials)
-    .set('Accept', 'application/json')
+    .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8')
+    .set('Content-Type','application/x-www-form-urlencoded')
     .expect('Content-Type', /json/)
     .expect(200)
     .end(function(err, response){
