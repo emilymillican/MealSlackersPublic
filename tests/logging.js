@@ -10,20 +10,20 @@ const userCredentials = {
 
 
 
-//var authenticatedUser = request.agent(app);
-//before(function(done){
-//  authenticatedUser
-//    .post('/login')
-//    .send('username=Stian%40colorado.edu&password=irock')
-//    .set({Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8','Content-Type':'application/x-www-form-urlencoded'})
-//    .expect('Content-Type', /json/)
-//    .expect(200)
-//    .end(function(err, response){
-//      expect(response.statusCode).to.equal(200);
-//      expect('Location', '/home');
-//      done(authenticatedUser);
-//    });
-//});
+var authenticatedUser = request.agent(app);
+before(function(done){
+  authenticatedUser
+    .post('/login')
+    .send('username=Stian%40colorado.edu&password=irock')
+    .set({Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8','Content-Type':'application/x-www-form-urlencoded'})
+    .expect('Content-Type', 'text/html')
+    .expect(200)
+    .end(function(err, response){
+      expect(response.statusCode).to.equal(200);
+      expect('Location', '/home');
+      done(authenticatedUser);
+    });
+});
 
 describe('GET /home', function(done){
 //addresses 1st bullet point: if the user is logged in we should get a 200 status code

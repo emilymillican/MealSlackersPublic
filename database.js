@@ -4,8 +4,8 @@ const dbConfig = {
     host: 'localhost',
     port: 5432,
     database: 'bsz',
-    user: 'postgres',
-    password: '' //Confirm posgres password
+    user: 'postgres'
+   
 };
 var db = pgp(dbConfig);
 
