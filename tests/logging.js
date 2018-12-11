@@ -21,7 +21,7 @@ before(function(done){
     .end(function(err, response){
       expect(response.statusCode).to.equal(302);
       expect('Location', '/home');
-      done(authenticatedUser);
+      done();
     });
 });
 
