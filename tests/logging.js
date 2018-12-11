@@ -14,7 +14,7 @@ var authenticatedUser = request.agent(app);
 before(function(done){
   authenticatedUser
     .post('/login')
-    .send('username=Stian@colorado.edu&password=irock')
+    .send('username=Stian%40colorado.edu&password=irock')
     .set({Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8','Content-Type':'application/x-www-form-urlencoded'})
     .expect('Content-Type', /json/)
     .expect(200)
