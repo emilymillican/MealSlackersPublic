@@ -2,12 +2,31 @@
 
 CSCI Group Project
 
-## Github Layout
+This is an application to advertise CU Events to CU students. 
 
+Registration must be done with a '@colorado.edu' e-mail address. 
+
+After logging in, you will be re-directed to the Home feed. There will be a listing of all events, with the soonest events listed first, that will occur on the current day and into the future. 
+
+The top right of the feed has a 'logout' button which will move you back to the login screen. 
+The left of the navigation bar also has button to the 'Create Event' page and the 'Edit Profile' page.
+
+
+
+## Github Layout
+### Features
 - **Master branch:** Main branch with the current best project
 - **Production branch:** 'master' branch for back-end team to work/test new features before merging to functional master branch
 - **Heroku branch:** Branch that is pushed up to Heroku for deployment
 - **Name branches:** Current updated features individuals are working on for review or collaboration
+
+###Project structure
+- Testing files are in the 'testing' folder in the 'logging.js' file.
+- Project info holds the Meeting notes and Milestones.
+    - The /ProjectInfo/Website directory contains the .html files produced by the front-end team
+- 'database.js' controls the accessibility to the presql database
+- 'server.js' is the primary file running the app when 'npm start' script is run
+
 
 ## Use of project
 
