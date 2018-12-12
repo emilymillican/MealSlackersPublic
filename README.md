@@ -22,6 +22,8 @@ The left of the navigation bar also has button to the 'Create Event' page and th
 
 ###Project structure
 - Testing files are in the 'testing' folder in the 'logging.js' file.
+    - The tests are run by travis-ci.com
+    - Access to the results should be visible on the commits (We believe...) by clicking on the 'passed' or 'failed' and looking at the descriptions.
 - Project info holds the Meeting notes and Milestones.
     - The /ProjectInfo/Website directory contains the .html files produced by the front-end team
 - 'database.js' controls the accessibility to the presql database
