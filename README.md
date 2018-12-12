@@ -5,25 +5,27 @@ CSCI Group Project
 ## Github Layout
 
 - **Master branch:** Main branch with the current best project
-- **Production branch:** 'master' branch for back-end team to work/test without worrying about stability of project for front-end team to work
+- **Production branch:** 'master' branch for back-end team to work/test new features before merging to functional master branch
+- **Heroku branch:** Branch that is pushed up to Heroku for deployment
 - **Name branches:** Current updated features individuals are working on for review or collaboration
 
 ## Use of project
 
 Start by cloning the repository into a working directory using 
 
-'''shell
+'''
 git clone <repo-URL>
 '''
 
 cd into the './BoulderSlackers/server/' directory.
 Edit the 'database.js' file to point to your database. The default is a localhost postgres server on port 5432, 
-with a database 'lab6', with the authorization: user-'postgres', password-'pass'. 
+with a database 'bsz', with the authorization: user-'postgres', password-'pass'. 
 
-Once the database is configured (instructions for setting up the database will be added to the readme at a later date), 
-run the following command to install the node dependencies for the project.
+The postgres database is initialized with the 'database.sql' file in db/. ***Note: Resetting the database might require editting the file to remove the tables first***
 
-'''shell
+Once the database is configured, run the following command to install the node dependencies for the project.
+
+'''
 npm install
 '''
 
